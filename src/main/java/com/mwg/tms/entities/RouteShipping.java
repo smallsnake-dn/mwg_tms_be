@@ -12,10 +12,10 @@ public class RouteShipping {
     @EmbeddedId
     private RouteShippingId id;
 
-    @MapsId("routeid")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "routeid", nullable = false)
-    private Route routeid;
+    // @MapsId("routeid")
+    // @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    // @JoinColumn(name = "routeid", nullable = false)
+    // private Route routeid;
 
     @Column(name = "creator")
     private Integer creator;

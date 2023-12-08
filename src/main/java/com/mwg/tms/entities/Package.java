@@ -9,10 +9,13 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "package")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Package {
     @Id
     @Column(name = "packageid", nullable = false)

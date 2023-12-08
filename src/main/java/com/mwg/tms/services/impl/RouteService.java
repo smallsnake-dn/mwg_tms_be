@@ -4,50 +4,54 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tomcat.util.http.fileupload.impl.IOFileUploadException;
 import org.springframework.stereotype.Service;
 
 import com.mwg.tms.DTO.RouteDetailRespone;
 import com.mwg.tms.DTO.TypeVehicle;
+import com.mwg.tms.entities.DeliveryPointPackage;
+import com.mwg.tms.entities.Route;
+import com.mwg.tms.repositories.IDeliveryPointPackage;
 import com.mwg.tms.repositories.IRouteRepository;
+import com.mwg.tms.repositories.IRouteRepositoryCustom;
+import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.DTO.DeliveryPoint;
 import com.mwg.tms.DTO.PackageResponeDto;
 import com.mwg.tms.DTO.RouteRequest;
 import com.mwg.tms.DTO.RouteRespone;
 import com.mwg.tms.services.IRouteServicce;
+import com.mwg.tms.utils.QueryBuilder;
 
 @Service
 public class RouteService implements IRouteServicce {
     private IRouteRepository routeRepository;
-    public RouteService (IRouteRepository routeRepository) {
+    private IRouteRepositoryCustom routeRepositoryCustom;
+    private IDeliveryPointPackage deliveryPointPackage;
+    public RouteService (IRouteRepository routeRepository, IRouteRepositoryCustom routeRepositoryCustom, IDeliveryPointPackage deliveryPointPackage) {
         this.routeRepository = routeRepository;
+        this.routeRepositoryCustom = routeRepositoryCustom;
+        this.deliveryPointPackage = deliveryPointPackage;
     }
 
     @Override
     public List<RouteRespone> getListRoute(RouteRequest routeRequest) {
-        // TODO Auto-generated method stub
-        RouteRespone route = new RouteRespone("ID123", "HCM", new Date(), "DN", new Date());
-        List<RouteRespone> listRoute = new ArrayList<>();
-        listRoute.add(route);
+        List<RouteRespone> listRoute = routeRepositoryCustom.findAllBydeparturelocationid(routeRequest);
         return listRoute;
     }
 
     @Override
-    public RouteDetailRespone getRouteDetailById(String routeId) {
-        // TODO Auto-generated method stub
-        RouteDetailRespone route = new RouteDetailRespone(
-            "ID123", "TPHCM", new Date(), "DN", new Date(), new TypeVehicle(routeId, 0, 0, routeId),
-            new DeliveryPoint(0, routeId, routeId, null)
-        );
+    public Route getRouteDetailById(int routeId) {
+        Route route = routeRepository.getRouteById(routeId);
         return route;
     }
 
     @Override
-    public List<PackageResponeDto> getDetailDeliveryPoint(String routeId, String deliveryId) {
-        // TODO Auto-generated method stub
-        // PackageResponeDto package = new PackageResponeDto(0, deliveryId, deliveryId, deliveryId, routeId, deliveryId);
-        List<PackageResponeDto> listPackage = new ArrayList<>();
-        listPackage.add(new PackageResponeDto(0, deliveryId, deliveryId, deliveryId, routeId, deliveryId));
-        return listPackage;
+    public List<DeliveryPointPackage> getDetailDeliveryPoint(int deliveryId) {
+        // List<PackageResponeDto> listPackage = new ArrayList<>();
+        // listPackage.add(new PackageResponeDto(0, deliveryId, deliveryId, deliveryId, routeId, deliveryId));
+        List<DeliveryPointPackage> list = this.deliveryPointPackage.findBydeliverypointid(deliveryId);
+        // System.out.println("DeliveryPointPackage size: " + size);
+        return list;
     }
     
 }

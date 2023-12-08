@@ -1,5 +1,6 @@
 package com.mwg.tms.controllers;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -9,48 +10,56 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.DTO.PackageResponeDto;
 import com.mwg.tms.DTO.RouteDetailRespone;
 import com.mwg.tms.DTO.RouteRequest;
 import com.mwg.tms.DTO.RouteRespone;
+import com.mwg.tms.entities.DeliveryPointPackage;
+import com.mwg.tms.entities.Route;
 import com.mwg.tms.services.IRouteServicce;
 import com.mwg.tms.services.impl.RouteService;
+import com.mwg.tms.utils.QueryBuilder;
 
 @RestController
 @RequestMapping("/api/route")
 public class RouteController {
     private IRouteServicce routeService;
+
     public RouteController(RouteService routeService) {
         this.routeService = routeService;
     }
 
     @GetMapping()
     public ResponseEntity<List<RouteRespone>> getListRoute(@RequestBody RouteRequest routeRequest) {
-         try {
+        try {
+            System.out.println("========================");
             List<RouteRespone> listRoute = routeService.getListRoute(routeRequest);
             System.out.println("OKKK");
             return ResponseEntity.ok().body(listRoute);
-         } catch (Exception e) {
+        } catch (Exception e) {
             // TODO: handle exception
-         }
+            System.out.println(e.getMessage());
+        }
         return null;
     }
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<RouteDetailRespone> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
+    public ResponseEntity<Route> getRouteDetailById(@PathVariable(name = "routeId") int routeId) {
         try {
-            RouteDetailRespone route = routeService.getRouteDetailById(routeId);
+            Route route = routeService.getRouteDetailById(routeId);
             return ResponseEntity.ok().body(route);
-            
+
         } catch (Exception e) {
             // TODO: handle exception
         }
         return null;
     }
 
-    @GetMapping("/{routeId}/{deliveryId}")
-    public List<PackageResponeDto> getDetailDeliveryPoint(@PathVariable("routeId") String routeId, @PathVariable("deliveryId") String deliveryId) {
-        List<PackageResponeDto> list = routeService.getDetailDeliveryPoint(routeId, deliveryId); 
+    @GetMapping("/delivery/{deliveryId}")
+    public List<DeliveryPointPackage> getDetailDeliveryPoint(
+            @PathVariable("deliveryId") int deliveryId) {
+        List<DeliveryPointPackage> list = routeService.getDetailDeliveryPoint(deliveryId);
         return list;
     }
 }

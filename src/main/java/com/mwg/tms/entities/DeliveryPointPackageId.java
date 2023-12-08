@@ -2,6 +2,8 @@ package com.mwg.tms.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -19,6 +21,9 @@ public class DeliveryPointPackageId implements Serializable {
 
     @Column(name = "packageid", nullable = false)
     private Integer packageid;
+    // @ManyToOne()
+    // @JoinColumn(name = "packageid")
+    // priavte Package package;
 
     @Override
     public boolean equals(Object o) {

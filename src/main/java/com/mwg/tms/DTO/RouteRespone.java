@@ -4,13 +4,14 @@ import java.util.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import java.time.Instant;
 
 @Data
 @AllArgsConstructor
 public class RouteRespone {
-    String routeId;
+    Integer routeId;
     String departureLocationId;
-    Date startTime;
+    Instant startTime;
     String endingLocationId;
-    Date endTime;
+    Instant endTime;
 }

@@ -3,12 +3,14 @@ package com.mwg.tms.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "physical_location")
-public class PhysicalLocation {
+public class PhysicalLocation implements Serializable{
+    private static final long serialVersionUID = -5900364108312313123L;
     @Id
     @Column(name = "locationid", nullable = false)
     private Integer id;
