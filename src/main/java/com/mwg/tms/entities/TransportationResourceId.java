@@ -14,14 +14,14 @@ import java.util.Objects;
 @Embeddable
 public class TransportationResourceId implements Serializable {
     private static final long serialVersionUID = 2982029720771681696L;
-    @Column(name = "shippingpartnerid", nullable = false, length = 36)
-    private String shippingpartnerid;
+    @Column(name = "shippingpartnerid", nullable = false)
+    private Integer shippingpartnerid;
 
-    @Column(name = "locationid", nullable = false, length = 36)
-    private String locationid;
+    @Column(name = "locationid", nullable = false)
+    private Integer locationid;
 
-    @Column(name = "typeofvehicleid", nullable = false, length = 36)
-    private String typeofvehicleid;
+    @Column(name = "typeofvehicleid", nullable = false)
+    private Integer typeofvehicleid;
 
     @Override
     public boolean equals(Object o) {

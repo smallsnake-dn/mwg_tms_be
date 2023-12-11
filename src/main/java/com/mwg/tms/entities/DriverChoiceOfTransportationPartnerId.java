@@ -14,11 +14,11 @@ import java.util.Objects;
 @Embeddable
 public class DriverChoiceOfTransportationPartnerId implements Serializable {
     private static final long serialVersionUID = 8142435812395277510L;
-    @Column(name = "driverid", nullable = false, length = 36)
-    private String driverid;
+    @Column(name = "driverid", nullable = false)
+    private Integer driverid;
 
-    @Column(name = "choiceoftransportationparterid", nullable = false, length = 36)
-    private String choiceoftransportationparterid;
+    @Column(name = "choiceoftransportationparterid", nullable = false)
+    private Integer choiceoftransportationparterid;
 
     @Override
     public boolean equals(Object o) {

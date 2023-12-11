@@ -12,8 +12,8 @@ import java.time.Instant;
 @Table(name = "choice_of_transportation_partner")
 public class ChoiceOfTransportationPartner {
     @Id
-    @Column(name = "choiceoftransportationpartnerid", nullable = false, length = 36)
-    private String id;
+    @Column(name = "choiceoftransportationpartnerid", nullable = false)
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "carrentalinformationid")
@@ -31,9 +31,5 @@ public class ChoiceOfTransportationPartner {
 
     @Column(name = "note", length = Integer.MAX_VALUE)
     private String note;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicleid")
-    private Vehicle vehicleid;
 
 }

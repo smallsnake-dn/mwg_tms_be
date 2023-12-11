@@ -146,27 +146,27 @@ public class CarrierService implements ICarrierService {
     // 1: duyệt
     // 2: từ chối
     void updateRejectRental(ChoiceOfTransportationPartner choiceOfTransportationPartner) throws Exception {
-        try {
-            CarRentalInfomation carRentalInfomation = carRentalInfomationRepository
-                    .findById(choiceOfTransportationPartner.getCarrentalinformationid().getId()).get();
-            if (carRentalInfomation == null) {
-                throw new Exception("carRentalInfomation khong the tim thay");
-            }
-            carRentalInfomation.setStatus(2);
-            carRentalInfomationRepository.save(carRentalInfomation);
-        } catch (Exception e) {
-            throw new Exception("Khong the UpdateRejectRental");
-        }
+        // try {
+        //     CarRentalInfomation carRentalInfomation = carRentalInfomationRepository
+        //             .findById(choiceOfTransportationPartner.getCarrentalinformationid().getId()).get();
+        //     if (carRentalInfomation == null) {
+        //         throw new Exception("carRentalInfomation khong the tim thay");
+        //     }
+        //     carRentalInfomation.setStatus(2);
+        //     carRentalInfomationRepository.save(carRentalInfomation);
+        // } catch (Exception e) {
+        //     throw new Exception("Khong the UpdateRejectRental");
+        // }
     }
 
     void updateAcceptRental(ChoiceOfTransportationPartner choiceOfTransportationPartner) throws Exception {
-        CarRentalInfomation carRentalInfomation = carRentalInfomationRepository
-                .findById(choiceOfTransportationPartner.getCarrentalinformationid().getId()).get();
-        if (carRentalInfomation == null) {
-            throw new Exception("carRentalInfomation khong the tim thay");
-        }
-        carRentalInfomation.setStatus(1);
-        carRentalInfomationRepository.save(carRentalInfomation);
+        // CarRentalInfomation carRentalInfomation = carRentalInfomationRepository
+        //         .findById(choiceOfTransportationPartner.getCarrentalinformationid().getId()).get();
+        // if (carRentalInfomation == null) {
+        //     throw new Exception("carRentalInfomation khong the tim thay");
+        // }
+        // carRentalInfomation.setStatus(1);
+        // carRentalInfomationRepository.save(carRentalInfomation);
     }
 
     // void disableCOTP(Integer requestid) throws Exception {
@@ -206,31 +206,31 @@ public class CarrierService implements ICarrierService {
 
     @Override
     public void updateCarrierForRoute(CarrierUpdateRequestDto update) throws Exception {
-        CarRentalInfomation carRentalInfomation = carRentalInfomationRepository.findByRouteid(update.getRouteId());
-        if (carRentalInfomation == null) {
-            throw new Exception("Khong the lay thong tin yeu cau CarRentalInfomation");
-        }
+        // CarRentalInfomation carRentalInfomation = carRentalInfomationRepository.findByRouteid(update.getRouteId());
+        // if (carRentalInfomation == null) {
+        //     throw new Exception("Khong the lay thong tin yeu cau CarRentalInfomation");
+        // }
 
-        ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository
-                .findCOTP(carRentalInfomation.getId());
-        if (choiceOfTransportationPartner == null) {
-            throw new Exception("Khong the lay thong tin yeu cau ChoiceOfTransportationPartner");
-        }
+        // ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository
+        //         .findCOTP(carRentalInfomation.getId());
+        // if (choiceOfTransportationPartner == null) {
+        //     throw new Exception("Khong the lay thong tin yeu cau ChoiceOfTransportationPartner");
+        // }
 
-        choiceOfTransportationPartner.setDeleteat((new Date()).toInstant());
-        cotpRepository.save(choiceOfTransportationPartner);
+        // choiceOfTransportationPartner.setDeleteat((new Date()).toInstant());
+        // cotpRepository.save(choiceOfTransportationPartner);
 
-        ShippingPartner shippingPartner = shippingPartnerRepository.findById(update.getCarrierId()).get();
-        if (shippingPartner == null) {
-            throw new Exception("Khong the lay thong tin yeu cau ShippingPartner");
-        }
+        // ShippingPartner shippingPartner = shippingPartnerRepository.findById(update.getCarrierId()).get();
+        // if (shippingPartner == null) {
+        //     throw new Exception("Khong the lay thong tin yeu cau ShippingPartner");
+        // }
 
-        ChoiceOfTransportationPartner choiceOfTransportationPartner2 = new ChoiceOfTransportationPartner();
-        choiceOfTransportationPartner2.setCarrentalinformationid(carRentalInfomation);
-        choiceOfTransportationPartner2.setNote(update.getReason());
-        choiceOfTransportationPartner2.setSenderinformation("Default");
-        choiceOfTransportationPartner2.setShippingpartnerid(shippingPartner);
-        cotpRepository.save(choiceOfTransportationPartner2);
+        // ChoiceOfTransportationPartner choiceOfTransportationPartner2 = new ChoiceOfTransportationPartner();
+        // choiceOfTransportationPartner2.setCarrentalinformationid(carRentalInfomation);
+        // choiceOfTransportationPartner2.setNote(update.getReason());
+        // choiceOfTransportationPartner2.setSenderinformation("Default");
+        // choiceOfTransportationPartner2.setShippingpartnerid(shippingPartner);
+        // cotpRepository.save(choiceOfTransportationPartner2);
     }
 
 }

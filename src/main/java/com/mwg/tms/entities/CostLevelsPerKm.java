@@ -10,8 +10,8 @@ import lombok.Setter;
 @Table(name = "cost_levels_per_km")
 public class CostLevelsPerKm {
     @Id
-    @Column(name = "costlevelperkm", nullable = false)
-    private Integer id;
+    @Column(name = "costlevelperkm", nullable = false, length = 36)
+    private String id;
 
     @Column(name = "ordinalnumber")
     private Integer ordinalnumber;

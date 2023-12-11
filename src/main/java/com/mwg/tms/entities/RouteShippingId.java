@@ -15,11 +15,11 @@ import java.util.Objects;
 @Embeddable
 public class RouteShippingId implements Serializable {
     private static final long serialVersionUID = 2029262175876391622L;
-    @Column(name = "routeid", nullable = false, length = 36)
-    private String routeid;
+    @Column(name = "routeid", nullable = false)
+    private Integer routeid;
 
-    @Column(name = "shippingpartnerid", nullable = false, length = 36)
-    private String shippingpartnerid;
+    @Column(name = "shippingpartnerid", nullable = false)
+    private Integer shippingpartnerid;
 
     @Column(name = "timecreate", nullable = false)
     private Instant timecreate;

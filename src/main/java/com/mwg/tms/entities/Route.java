@@ -17,8 +17,8 @@ import java.time.Instant;
 @Table(name = "route")
 public class Route {
     @Id
-    @Column(name = "routeid", nullable = false, length = 36)
-    private String id;
+    @Column(name = "routeid", nullable = false)
+    private Integer id;
 
     // @Column(name = "departurelocationid")
     // private Integer departurelocationid;
@@ -31,7 +31,7 @@ public class Route {
     @ManyToOne
     @JoinColumn(name = "endinglocationid")
     private PhysicalLocation endinglocation;
-
+    
     @Column(name = "routelength")
     private Double routelength;
 
@@ -41,6 +41,6 @@ public class Route {
     @Column(name = "endtime")
     private Instant endtime;
 
-    @Column(name = "typeofvehicleid", length = 36)
-    private String typeofvehicleid;
+    @Column(name = "typeofvehicleid")
+    private Integer typeofvehicleid;
 }

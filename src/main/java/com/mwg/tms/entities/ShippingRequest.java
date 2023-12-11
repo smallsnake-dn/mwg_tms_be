@@ -12,8 +12,8 @@ import java.time.Instant;
 @Table(name = "shipping_request")
 public class ShippingRequest {
     @Id
-    @Column(name = "shippingrequestid", nullable = false, length = 36)
-    private String id;
+    @Column(name = "shippingrequestid", nullable = false)
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "routeid")
