@@ -1,9 +1,6 @@
 package com.mwg.tms.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,8 +10,8 @@ import lombok.Setter;
 @Table(name = "cost_levels_per_kg")
 public class CostLevelsPerKg {
     @Id
-    @Column(name = "costlevelsperkgid", nullable = false)
-    private Integer id;
+    @Column(name = "costlevelsperkgid", nullable = false, length = 36)
+    private String id;
 
     @Column(name = "ordinalnumber")
     private Integer ordinalnumber;
@@ -27,5 +24,9 @@ public class CostLevelsPerKg {
 
     @Column(name = "costs")
     private Double costs;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shippingservicepriceid")
+    private ShippingServicePrice shippingservicepriceid;
 
 }

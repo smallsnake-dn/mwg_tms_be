@@ -10,8 +10,9 @@ import com.mwg.tms.DTO.RouteRespone;
 import com.mwg.tms.entities.DeliveryPointPackage;
 import com.mwg.tms.entities.Route;
 
-public interface IRouteServicce {
+public interface IRouteService {
     public List<RouteRespone> getListRoute(RouteRequest routeRequest);
     public Route getRouteDetailById(int routeId);
     public List<DeliveryPointPackage> getDetailDeliveryPoint(int deliveryId);
+    public List<Route> getListRouteById(List<Integer> listRoute);
 }

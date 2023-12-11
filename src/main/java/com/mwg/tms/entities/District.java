@@ -2,10 +2,7 @@ package com.mwg.tms.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,5 +18,9 @@ public class District {
 
     @Column(name = "districtname", length = 50)
     private String districtname;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "provinceid")
+    private Province provinceid;
 
 }

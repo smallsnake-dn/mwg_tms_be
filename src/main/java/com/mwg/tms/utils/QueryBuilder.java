@@ -38,7 +38,7 @@ public class QueryBuilder {
     public QueryBuilder startTime(Date date) {
         if (date != null) {
             String _date = FormatDate.format(date);
-            this.stringBuilder.add(" starttime >= '" + _date + "'");
+            this.stringBuilder.add(" starttime >= cast('" + _date + "' as instant) ");
         }
         return this;
     }

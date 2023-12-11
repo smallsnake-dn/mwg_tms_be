@@ -10,21 +10,21 @@ import lombok.Setter;
 @Table(name = "shipping_service_price")
 public class ShippingServicePrice {
     @Id
-    @Column(name = "shippingservicepriceid", nullable = false)
-    private Integer id;
+    @Column(name = "shippingservicepriceid", nullable = false, length = 36)
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shippingpartnerid")
     private ShippingPartner shippingpartnerid;
 
-    @Column(name = "typeofvehicleid")
-    private Integer typeofvehicleid;
+    @Column(name = "typeofvehicleid", length = 36)
+    private String typeofvehicleid;
 
-    @Column(name = "startlocationid")
-    private Integer startlocationid;
+    @Column(name = "startlocationid", length = 36)
+    private String startlocationid;
 
-    @Column(name = "endlocationid")
-    private Integer endlocationid;
+    @Column(name = "endlocationid", length = 36)
+    private String endlocationid;
 
     @Column(name = "typeofservice")
     private Integer typeofservice;

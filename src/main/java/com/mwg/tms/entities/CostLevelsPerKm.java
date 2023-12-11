@@ -1,9 +1,6 @@
 package com.mwg.tms.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +21,9 @@ public class CostLevelsPerKm {
 
     @Column(name = "costs")
     private Double costs;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shippingservicepriceid")
+    private ShippingServicePrice shippingservicepriceid;
 
 }

@@ -2,6 +2,7 @@ package com.mwg.tms.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,8 @@ import com.mwg.tms.DTO.CarrierRequestDto;
 import com.mwg.tms.DTO.CarrierRequestFilterDto;
 import com.mwg.tms.DTO.CarrierUpdateRequestDto;
 import com.mwg.tms.DTO.SuggestCarrierResponeDto;
-import com.mwg.tms.DTO.UpdateCarrierRequestDto;
+import com.mwg.tms.DTO.UpdateStatusDto;
+import com.mwg.tms.entities.Route;
 import com.mwg.tms.services.ICarrierService;
 import com.mwg.tms.services.impl.CarrierService;
 
@@ -28,11 +30,12 @@ public class CarrierController {
     }
 
     @PostMapping("/suggest")
-    public List<SuggestCarrierResponeDto> suggestCarrier(@RequestBody List<String> listIdRoute) {
+    public List<Route> suggestCarrier(@RequestBody List<Integer> listIdRoute) {
         try {
-            List<SuggestCarrierResponeDto> list = carrierService.suggestCarrier(listIdRoute);
+            List<Route> list = carrierService.suggestCarrier(listIdRoute);
             return list;
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             // TODO: handle exception
         }
         return null;
@@ -40,22 +43,29 @@ public class CarrierController {
 
     @PutMapping("/")
     public ResponseEntity<String> updateCarrierForRoute(@RequestBody CarrierUpdateRequestDto carrierUpdate) {
-        return ResponseEntity.ok().body("Update successs");
+        try {
+            carrierService.updateCarrierForRoute(carrierUpdate);
+            return ResponseEntity.ok().body("Update successs");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("error server");
+        }
     }
 
+    // tested
     @PostMapping("/request")
-    public ResponseEntity<String> createShippingRequest(@RequestBody List<String> listRouteId) {
+    public ResponseEntity<String> createShippingRequest(@RequestBody List<Integer> listRouteId) {
         try {
-            String rs = carrierService.createShippingRequest(listRouteId);
-            return ResponseEntity.ok().body(rs);
+            carrierService.createShippingRequest(listRouteId);
+            return ResponseEntity.ok().body("OKK");
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
+            return ResponseEntity.internalServerError().body("server error");
         }
-        return null;
     }
 
     @PostMapping("/request/filter")
-    public ResponseEntity<List<CarrierRequestDto>> getListCarrierRequestByFilter(@RequestBody CarrierRequestFilterDto filter) {
+    public ResponseEntity<List<CarrierRequestDto>> getListCarrierRequestByFilter(
+            @RequestBody CarrierRequestFilterDto filter) {
         try {
             List<CarrierRequestDto> rs = carrierService.getListRequestByFilter(filter);
             return ResponseEntity.ok().body(rs);
@@ -65,10 +75,16 @@ public class CarrierController {
         return null;
     }
 
+    
     @PutMapping("/request")
-    public ResponseEntity<String> updateCarrierRequest(@RequestBody UpdateCarrierRequestDto update) {
-
-        return null;
+    public ResponseEntity<String> updateCarrierRequest(@RequestBody UpdateStatusDto update) {
+        try {
+            System.out.println(UUID.randomUUID().toString());
+            carrierService.updateStatus(update);
+            return ResponseEntity.ok().body("OKK");
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("server error");
+        }
     }
 
 }

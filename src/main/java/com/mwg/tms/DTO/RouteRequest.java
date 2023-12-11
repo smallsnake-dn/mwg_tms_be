@@ -8,7 +8,6 @@ import lombok.Data;
 public class RouteRequest {
     Date fromDate;
     Date endDate;
-    Location startLocation;
-    Location endLocation;
+    Location location;
     String status;
 }

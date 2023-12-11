@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DriverInfo {
-    String Id;
+    String citizenIdentificationCard;
     String name;
     String phoneNumber;
 }

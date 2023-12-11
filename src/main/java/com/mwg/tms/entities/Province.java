@@ -1,5 +1,7 @@
 package com.mwg.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "province")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Province {
     @Id
     @Column(name = "provinceid", nullable = false)

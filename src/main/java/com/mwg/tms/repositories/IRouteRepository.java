@@ -13,5 +13,6 @@ import com.mwg.tms.entities.Route;
 
 @Repository
 public interface IRouteRepository extends JpaRepository<Route, Integer>{
-    Route getRouteById(int id);
+    @Query(value = "select r from Route r where r.id = :id")
+    Route getRouteById(@Param("id") Integer id);
 }

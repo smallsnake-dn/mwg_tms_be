@@ -14,10 +14,10 @@ import java.util.Objects;
 @Embeddable
 public class DriverDetailId implements Serializable {
     private static final long serialVersionUID = -5900364108359853661L;
-    @Column(name = "shippingrequestid", nullable = false)
-    private Integer shippingrequestid;
+    @Column(name = "shippingrequestid", nullable = false, length = 36)
+    private String shippingrequestid;
 
-    @Column(name = "driverid", nullable = false, length = 12)
+    @Column(name = "driverid", nullable = false, length = 36)
     private String driverid;
 
     @Override

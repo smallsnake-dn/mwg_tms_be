@@ -10,8 +10,8 @@ import lombok.Setter;
 @Table(name = "shipping_request_detail")
 public class ShippingRequestDetail {
     @Id
-    @Column(name = "shippingrequestid", nullable = false)
-    private Integer id;
+    @Column(name = "shippingrequestid", nullable = false, length = 36)
+    private String id;
 
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)

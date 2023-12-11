@@ -14,11 +14,11 @@ import java.util.Objects;
 @Embeddable
 public class TollBoothCostId implements Serializable {
     private static final long serialVersionUID = 6426587098821078230L;
-    @Column(name = "tollboothid", nullable = false)
-    private Integer tollboothid;
+    @Column(name = "tollboothid", nullable = false, length = 36)
+    private String tollboothid;
 
-    @Column(name = "typeofvehicleid", nullable = false)
-    private Integer typeofvehicleid;
+    @Column(name = "typeofvehicleid", nullable = false, length = 36)
+    private String typeofvehicleid;
 
     @Override
     public boolean equals(Object o) {

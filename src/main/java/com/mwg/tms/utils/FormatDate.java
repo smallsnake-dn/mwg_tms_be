@@ -13,7 +13,7 @@ public class FormatDate {
     public static String format(Date date) {
         String pattern = "yyyy-MM-dd";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String _date = simpleDateFormat.format(new Date());
+        String _date = simpleDateFormat.format(date);
         return _date;
     }
 }

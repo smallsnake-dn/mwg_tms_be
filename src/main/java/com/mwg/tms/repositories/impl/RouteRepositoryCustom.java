@@ -9,6 +9,7 @@ import com.mwg.tms.DTO.RouteRequest;
 import com.mwg.tms.DTO.RouteRespone;
 import com.mwg.tms.entities.Route;
 import com.mwg.tms.repositories.IRouteRepositoryCustom;
+import com.mwg.tms.utils.FormatDate;
 import com.mwg.tms.utils.QueryBuilder;
 
 import jakarta.persistence.EntityManager;
@@ -25,15 +26,17 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
         String query = QueryBuilder.create()
                 .Select("select new com.mwg.tms.DTO.RouteRespone(r.id, stl.exactaddress as departureLocation, r.starttime, el.exactaddress as endingLocation, r.endtime) from\r\n" + //
                         "             Route r\r\n" + //
-                        "                 left join RouteShipping rs\r\n" + //
+                        "                 left join SuggestShippingUnit rs\r\n" + //
                         "                     on r.id = rs.routeid.id\r\n" + //
                         "                 left join PhysicalLocation stl\r\n" + //
                         "                     on r.departurelocation.id = stl.id\r\n" + //
                         "                 left join PhysicalLocation el\r\n" + //
                         "                     on r.endinglocation.id = el.id\r\n" + //
                         "         where ")
-                .startLocation(routeRequest.getStartLocation()).endLocation(routeRequest.getEndLocation())
-                .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();
+                .startLocation(routeRequest.getLocation())
+                // .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();
+                .startTime(routeRequest.getFromDate()).build();
+        System.out.println("communeIdddd:  " + FormatDate.format(routeRequest.getFromDate()));
         System.out.println(query);
         List<RouteRespone> l = null;
         try {

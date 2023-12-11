@@ -2,8 +2,6 @@ package com.mwg.tms.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Hibernate;
@@ -16,14 +14,11 @@ import java.util.Objects;
 @Embeddable
 public class DeliveryPointPackageId implements Serializable {
     private static final long serialVersionUID = 8787216644470820119L;
-    @Column(name = "deliverypointid", nullable = false)
-    private Integer deliverypointid;
+    @Column(name = "deliverypointid", nullable = false, length = 36)
+    private String deliverypointid;
 
-    @Column(name = "packageid", nullable = false)
-    private Integer packageid;
-    // @ManyToOne()
-    // @JoinColumn(name = "packageid")
-    // priavte Package package;
+    @Column(name = "packageid", nullable = false, length = 36)
+    private String packageid;
 
     @Override
     public boolean equals(Object o) {

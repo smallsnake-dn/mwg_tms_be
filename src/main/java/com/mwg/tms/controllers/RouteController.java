@@ -17,14 +17,14 @@ import com.mwg.tms.DTO.RouteRequest;
 import com.mwg.tms.DTO.RouteRespone;
 import com.mwg.tms.entities.DeliveryPointPackage;
 import com.mwg.tms.entities.Route;
-import com.mwg.tms.services.IRouteServicce;
+import com.mwg.tms.services.IRouteService;
 import com.mwg.tms.services.impl.RouteService;
 import com.mwg.tms.utils.QueryBuilder;
 
 @RestController
 @RequestMapping("/api/route")
 public class RouteController {
-    private IRouteServicce routeService;
+    private IRouteService routeService;
 
     public RouteController(RouteService routeService) {
         this.routeService = routeService;
@@ -33,9 +33,7 @@ public class RouteController {
     @GetMapping()
     public ResponseEntity<List<RouteRespone>> getListRoute(@RequestBody RouteRequest routeRequest) {
         try {
-            System.out.println("========================");
             List<RouteRespone> listRoute = routeService.getListRoute(routeRequest);
-            System.out.println("OKKK");
             return ResponseEntity.ok().body(listRoute);
         } catch (Exception e) {
             // TODO: handle exception

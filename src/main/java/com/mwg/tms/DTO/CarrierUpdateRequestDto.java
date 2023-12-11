@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class CarrierUpdateRequestDto {
-    String routeId;
-    String carrierId;
+    Integer routeId;
+    Integer carrierId;
     String reason;
 }
