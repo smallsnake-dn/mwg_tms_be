@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.mwg.tms.entities.ShippingPartner;
 
-public interface IShippingPartnerRepository extends JpaRepository<ShippingPartner, Integer>{
+public interface IShippingPartnerRepository extends JpaRepository<ShippingPartner, String>{
     
 }

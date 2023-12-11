@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.mwg.tms.entities.Vehicle;
 
-public interface IVehicleRepository extends JpaRepository<Vehicle, Integer>{
+public interface IVehicleRepository extends JpaRepository<Vehicle, String>{
     @Query(value = "select v from Vehicle v where v.licenseplate = :licenseplate")
     Vehicle findByLicensePlate(@Param("licenseplate") String licenseplate);
 }

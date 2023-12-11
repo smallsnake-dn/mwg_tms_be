@@ -1,9 +1,6 @@
 package com.mwg.tms.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,16 +10,18 @@ import lombok.Setter;
 @Table(name = "vehicle")
 public class Vehicle {
     @Id
-    @Column(name = "vehilceid", nullable = false)
-    private Integer id;
+    @Column(name = "vehilceid", nullable = false, length = 40)
+    private String vehilceid;
 
-    @Column(name = "typeofvehicleid")
-    private Integer typeofvehicleid;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "typeofvehicleid")
+    private TypeOfVehicle typeofvehicleid;
 
     @Column(name = "licenseplate", length = 10)
     private String licenseplate;
 
-    @Column(name = "shippingpartnerid")
-    private Integer shippingpartnerid;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shippingpartnerid")
+    private ShippingPartner shippingpartnerid;
 
 }

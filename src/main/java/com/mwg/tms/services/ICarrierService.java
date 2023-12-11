@@ -12,8 +12,8 @@ import com.mwg.tms.entities.Route;
 
 @Service
 public interface ICarrierService {
-    public List<Route> suggestCarrier(List<Integer> listRouteId);
-    public void createShippingRequest(List<Integer> listIdRoute) throws Exception;
+    public List<Route> suggestCarrier(List<String> listRouteId);
+    public void createShippingRequest(List<String> listIdRoute) throws Exception;
     public List<CarrierRequestDto> getListRequestByFilter(CarrierRequestFilterDto filter);
     public void updateStatus(UpdateStatusDto update) throws Exception;
     public void updateCarrierForRoute(CarrierUpdateRequestDto update) throws Exception;

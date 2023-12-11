@@ -9,7 +9,7 @@ import java.time.Instant;
 @Data
 @AllArgsConstructor
 public class RouteRespone {
-    Integer routeId;
+    String routeId;
     String departureLocationId;
     Instant startTime;
     String endingLocationId;

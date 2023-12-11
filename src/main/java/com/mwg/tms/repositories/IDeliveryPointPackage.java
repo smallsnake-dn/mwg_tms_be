@@ -13,5 +13,5 @@ import com.mwg.tms.entities.DeliveryPointPackageId;
 @Repository
 public interface IDeliveryPointPackage extends JpaRepository<DeliveryPointPackage, DeliveryPointPackageId>{
     @Query(value = "select d from DeliveryPointPackage d where d.id.deliverypointid = :id")
-    List<DeliveryPointPackage> findBydeliverypointid(@Param("id") int id);   
+    List<DeliveryPointPackage> findBydeliverypointid(@Param("id") String id);   
 }

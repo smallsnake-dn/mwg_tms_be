@@ -13,12 +13,12 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class DeliveryPointPackageId implements Serializable {
-    private static final long serialVersionUID = 8787216644470820119L;
-    @Column(name = "deliverypointid", nullable = false)
-    private Integer deliverypointid;
+    private static final long serialVersionUID = -5197204165127244184L;
+    @Column(name = "deliverypointid", nullable = false, length = 40)
+    private String deliverypointid;
 
-    @Column(name = "packageid", nullable = false)
-    private Integer packageid;
+    @Column(name = "packageid", nullable = false, length = 40)
+    private String packageid;
 
     @Override
     public boolean equals(Object o) {

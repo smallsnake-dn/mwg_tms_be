@@ -43,7 +43,7 @@ public class RouteController {
     }
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<Route> getRouteDetailById(@PathVariable(name = "routeId") int routeId) {
+    public ResponseEntity<Route> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
         try {
             Route route = routeService.getRouteDetailById(routeId);
             return ResponseEntity.ok().body(route);
@@ -56,7 +56,7 @@ public class RouteController {
 
     @GetMapping("/delivery/{deliveryId}")
     public List<DeliveryPointPackage> getDetailDeliveryPoint(
-            @PathVariable("deliveryId") int deliveryId) {
+            @PathVariable("deliveryId") String deliveryId) {
         List<DeliveryPointPackage> list = routeService.getDetailDeliveryPoint(deliveryId);
         return list;
     }

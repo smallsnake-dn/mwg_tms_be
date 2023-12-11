@@ -17,6 +17,11 @@ public class TollBoothCost {
     @JoinColumn(name = "tollboothid", nullable = false)
     private TollBooth tollboothid;
 
+    @MapsId("typeofvehicleid")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "typeofvehicleid", nullable = false)
+    private TypeOfVehicle typeofvehicleid;
+
     @Column(name = "costs")
     private Double costs;
 

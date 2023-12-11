@@ -10,8 +10,12 @@ import lombok.Setter;
 @Table(name = "cost_levels_per_km")
 public class CostLevelsPerKm {
     @Id
-    @Column(name = "costlevelperkm", nullable = false, length = 36)
-    private String id;
+    @Column(name = "costlevelperkm", nullable = false)
+    private Integer id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shippingservicepriceid")
+    private ShippingServicePrice shippingservicepriceid;
 
     @Column(name = "ordinalnumber")
     private Integer ordinalnumber;
@@ -21,9 +25,5 @@ public class CostLevelsPerKm {
 
     @Column(name = "costs")
     private Double costs;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shippingservicepriceid")
-    private ShippingServicePrice shippingservicepriceid;
 
 }

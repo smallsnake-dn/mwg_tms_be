@@ -30,7 +30,7 @@ public class CarrierController {
     }
 
     @PostMapping("/suggest")
-    public List<Route> suggestCarrier(@RequestBody List<Integer> listIdRoute) {
+    public List<Route> suggestCarrier(@RequestBody List<String> listIdRoute) {
         try {
             List<Route> list = carrierService.suggestCarrier(listIdRoute);
             return list;
@@ -53,7 +53,7 @@ public class CarrierController {
 
     // tested
     @PostMapping("/request")
-    public ResponseEntity<String> createShippingRequest(@RequestBody List<Integer> listRouteId) {
+    public ResponseEntity<String> createShippingRequest(@RequestBody List<String> listRouteId) {
         try {
             carrierService.createShippingRequest(listRouteId);
             return ResponseEntity.ok().body("OKK");

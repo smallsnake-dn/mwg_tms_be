@@ -13,8 +13,8 @@ import lombok.Setter;
 @Table(name = "toll_booth")
 public class TollBooth {
     @Id
-    @Column(name = "tollboothid", nullable = false)
-    private Integer id;
+    @Column(name = "tollboothid", nullable = false, length = 40)
+    private String tollboothid;
 
     @Column(name = "tollboothname", length = 50)
     private String tollboothname;

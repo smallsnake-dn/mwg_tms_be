@@ -22,6 +22,11 @@ public class TransportationResource {
     @JoinColumn(name = "locationid", nullable = false)
     private PhysicalLocation locationid;
 
+    @MapsId("typeofvehicleid")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "typeofvehicleid", nullable = false)
+    private TypeOfVehicle typeofvehicleid;
+
     @Column(name = "numberofvehicle")
     private Integer numberofvehicle;
 

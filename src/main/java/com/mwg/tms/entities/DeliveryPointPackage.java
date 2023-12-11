@@ -15,7 +15,12 @@ public class DeliveryPointPackage {
     @MapsId("deliverypointid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "deliverypointid", nullable = false)
-    private DeliveryPoint deliverypointid;
+    private DeliveryPoint deliverypoint;
+
+    @MapsId("packageid")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "packageid", nullable = false)
+    private Package packageid;
 
     @Column(name = "behavior")
     private Integer behavior;

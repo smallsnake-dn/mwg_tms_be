@@ -15,14 +15,14 @@ import java.time.Instant;
 @Table(name = "package")
 public class Package {
     @Id
-    @Column(name = "packageid", nullable = false)
-    private Integer id;
+    @Column(name = "packageid", nullable = false, length = 40)
+    private String packageid;
 
-    @Column(name = "departurelocation")
-    private Integer departurelocation;
+    @Column(name = "departurelocation", length = 40)
+    private String departurelocation;
 
-    @Column(name = "endinglocation")
-    private Integer endinglocation;
+    @Column(name = "endinglocation", length = 40)
+    private String endinglocation;
 
     @Column(name = "senderaddress", length = 50)
     private String senderaddress;

@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class UpdateStatusDto {
-    Integer requestid;
+    String requestid;
     Boolean type;
     List<DriverInfo> driverinfo;
-    VehicleInfo vehicleinfo;
+    String vehicleinfo;
 }

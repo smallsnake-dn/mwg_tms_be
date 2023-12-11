@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mwg.tms.entities.CarRentalInfomation;
 import com.mwg.tms.entities.Route;
 
-public interface ICarRentalInfomationRepository extends JpaRepository<CarRentalInfomation, Integer> {
+public interface ICarRentalInfomationRepository extends JpaRepository<CarRentalInfomation, String> {
         @Query(value = "update CarRentalInfomation c set c.timecreate = :timecreate, " +
                         "c.approverinformation = :approverinformation, c.approvaldate = :approvaldate, " +
                         "c.status = :status where c.routeid.id = :route and c.status IS NULL")
@@ -19,7 +19,7 @@ public interface ICarRentalInfomationRepository extends JpaRepository<CarRentalI
                         @Param("approverinformation") String approverinformation,
                         @Param("approvaldate") Instant approvaldate,
                         @Param("status") Integer status,
-                        @Param("route") Integer route);
+                        @Param("route") String route);
 
 
         @Transactional
@@ -28,8 +28,8 @@ public interface ICarRentalInfomationRepository extends JpaRepository<CarRentalI
                         "c.status = :status where c.routeid.id = :route and c.status IS NULL")
         void CreateCarRentalInformation(@Param("timecreate") Instant timecreate,
                         @Param("status") Integer status,
-                        @Param("route") Integer route);
+                        @Param("route") String route);
 
         @Query(value = "select c from CarRentalInfomation c where c.routeid.id = :id and c.status IS NULL")
-        CarRentalInfomation findByRouteid(@Param("id") Integer id);
+        CarRentalInfomation findByRouteid(@Param("id") String id);
 }

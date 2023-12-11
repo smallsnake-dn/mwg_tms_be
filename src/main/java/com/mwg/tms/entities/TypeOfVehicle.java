@@ -1,5 +1,7 @@
 package com.mwg.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,10 +13,11 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "type_of_vehicle")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class TypeOfVehicle {
     @Id
-    @Column(name = "typeofvehicelid", nullable = false)
-    private Integer id;
+    @Column(name = "typeofvehicelid", nullable = false, length = 40)
+    private String typeofvehicelid;
 
     @Column(name = "payload")
     private Double payload;

@@ -31,13 +31,14 @@ public class RouteService implements IRouteService {
     }
 
     @Override
-    public Route getRouteDetailById(int routeId) {
-        Route route = routeRepository.getRouteById(routeId);
+    public Route getRouteDetailById(String routeId) {
+        // Route route = routeRepository.getRouteById(routeId);
+        Route route = routeRepository.findById(routeId).get();
         return route;
     }
 
     @Override
-    public List<DeliveryPointPackage> getDetailDeliveryPoint(int deliveryId) {
+    public List<DeliveryPointPackage> getDetailDeliveryPoint(String deliveryId) {
         // List<PackageResponeDto> listPackage = new ArrayList<>();
         // listPackage.add(new PackageResponeDto(0, deliveryId, deliveryId, deliveryId, routeId, deliveryId));
         List<DeliveryPointPackage> list = this.deliveryPointPackage.findBydeliverypointid(deliveryId);
@@ -46,7 +47,7 @@ public class RouteService implements IRouteService {
     }
 
     @Override
-    public List<Route> getListRouteById(List<Integer> listRoute) {
+    public List<Route> getListRouteById(List<String> listRoute) {
         List<Route> list = routeRepository.findAllById(listRoute);
         return list;
     }

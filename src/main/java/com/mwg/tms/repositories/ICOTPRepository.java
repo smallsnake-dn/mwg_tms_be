@@ -8,10 +8,10 @@ import org.springframework.data.repository.query.Param;
 
 import com.mwg.tms.entities.ChoiceOfTransportationPartner;
 
-public interface ICOTPRepository extends JpaRepository<ChoiceOfTransportationPartner, Integer>{
+public interface ICOTPRepository extends JpaRepository<ChoiceOfTransportationPartner, String>{
     @Query(value = "select c from ChoiceOfTransportationPartner c " +
-    "where c.carrentalinformationid.id = :id and c.deleteat IS NULL")
-    ChoiceOfTransportationPartner findCOTP(@Param("id") Integer id);
+    "where c.carrentalinformationid = :id and c.deleteat IS NULL")
+    ChoiceOfTransportationPartner findCOTP(@Param("id") String id);
     
     // @Query(value = "select c from ChoiceOfTransportationPartner where er id);
 }

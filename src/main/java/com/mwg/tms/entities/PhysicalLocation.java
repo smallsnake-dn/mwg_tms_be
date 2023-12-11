@@ -13,8 +13,8 @@ import lombok.Setter;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class PhysicalLocation {
     @Id
-    @Column(name = "locationid", nullable = false)
-    private Integer id;
+    @Column(name = "locationid", nullable = false, length = 40)
+    private String locationid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "countryid")

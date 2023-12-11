@@ -13,12 +13,12 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class RouteTollboothId implements Serializable {
-    private static final long serialVersionUID = 7256758933367688893L;
-    @Column(name = "tollboothid", nullable = false)
-    private Integer tollboothid;
+    private static final long serialVersionUID = -676038944670349939L;
+    @Column(name = "tollboothid", nullable = false, length = 40)
+    private String tollboothid;
 
-    @Column(name = "routeid", nullable = false)
-    private Integer routeid;
+    @Column(name = "routeid", nullable = false, length = 40)
+    private String routeid;
 
     @Override
     public boolean equals(Object o) {

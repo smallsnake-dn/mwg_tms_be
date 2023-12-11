@@ -1,6 +1,8 @@
 package com.mwg.tms.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,14 +14,5 @@ public class DriverChoiceOfTransportationPartner {
     @EmbeddedId
     private DriverChoiceOfTransportationPartnerId id;
 
-    @MapsId("driverid")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "driverid", nullable = false)
-    private Driver driverid;
-
-    @MapsId("choiceoftransportationparterid")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "choiceoftransportationparterid", nullable = false)
-    private ChoiceOfTransportationPartner choiceoftransportationparterid;
-
+    //TODO [JPA Buddy] generate columns from DB
 }

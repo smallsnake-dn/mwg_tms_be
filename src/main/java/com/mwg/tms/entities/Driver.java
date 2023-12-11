@@ -13,28 +13,23 @@ import lombok.Setter;
 @Table(name = "driver")
 public class Driver {
     @Id
-    @Column(name = "driverid", nullable = false, length = 12)
-    private Integer driverid;
-
-    @Column(name = "name", length = 50)
-    private String drivername;
-
-    @Column(name = "phone", length = 12)
-    private String driverphonenumber;
+    
+    @Column(name = "driverid", nullable = false, length = 40)
+    private String driverid;
 
     @Column(name = "citizenidentificationcard", length = 12)
     private String citizenidentificationcard;
 
-    // @Column(name = "name", length = 50)
-    // private String name;
+    @Column(name = "name", length = 50)
+    private String name;
 
-    // @Column(name = "phone", length = 12)
-    // private String phone;
+    @Column(name = "phone", length = 12)
+    private String phone;
 
     @Column(name = "driverlicenseclass", length = 1)
     private String driverlicenseclass;
 
-    @Column(name = "shippingpartnerid")
-    private Integer shippingpartnerid;
+    @Column(name = "shippingpartnerid", length = 40)
+    private String shippingpartnerid;
 
 }

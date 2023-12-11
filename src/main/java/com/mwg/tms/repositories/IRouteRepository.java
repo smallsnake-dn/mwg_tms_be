@@ -12,7 +12,7 @@ import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.entities.Route;
 
 @Repository
-public interface IRouteRepository extends JpaRepository<Route, Integer>{
+public interface IRouteRepository extends JpaRepository<Route, String>{
     @Query(value = "select r from Route r where r.id = :id")
-    Route getRouteById(@Param("id") Integer id);
+    Route getRouteById(@Param("id") String id);
 }
