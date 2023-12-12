@@ -59,15 +59,13 @@ public class CarrierService implements ICarrierService {
     public List<Route> suggestCarrier(List<String> listRouteId) {
         // lấy đơn vị vận chuyển theo tuyến
         // lấy bảng giá theo km hoặc kg
-        List<RouteCalculator> list = new ArrayList<>();
-
-        // List<Route> list = routeService.getListRouteById(listRouteId);
-        //
-        // SuggestCarrierResponeDto suggest = new SuggestCarrierResponeDto("routeId",
-        // "carrierId", 1.2f);
-        // TODO Auto-generated method stub
-        // List<SuggestCarrierResponeDto> list = new ArrayList<>();
-        // list.add(suggest);
+        // List<RouteCalculator> list = new ArrayList<>();
+        listRouteId.forEach(id -> {
+            Route route = routeRepository.getRouteById(id);
+            String typeVehicle = route.getTypeofvehicleid().getTypeofvehicelid();
+            String startLocation = route.getDeparturelocation().getLocationid();
+            
+        });
         return null;
     }
 

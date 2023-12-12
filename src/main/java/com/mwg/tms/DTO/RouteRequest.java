@@ -9,5 +9,5 @@ public class RouteRequest {
     Date fromDate;
     Date endDate;
     Location location;
-    String status;
+    Integer status;
 }

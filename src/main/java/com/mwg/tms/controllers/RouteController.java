@@ -14,7 +14,7 @@ import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.DTO.PackageResponeDto;
 import com.mwg.tms.DTO.RouteDetailRespone;
 import com.mwg.tms.DTO.RouteRequest;
-import com.mwg.tms.DTO.RouteRespone;
+import com.mwg.tms.DTO.RouteResponeDto;
 import com.mwg.tms.entities.DeliveryPointPackage;
 import com.mwg.tms.entities.Route;
 import com.mwg.tms.services.IRouteService;
@@ -31,9 +31,9 @@ public class RouteController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<RouteRespone>> getListRoute(@RequestBody RouteRequest routeRequest) {
+    public ResponseEntity<List<RouteResponeDto>> getListRoute(@RequestBody RouteRequest routeRequest) {
         try {
-            List<RouteRespone> listRoute = routeService.getListRoute(routeRequest);
+            List<RouteResponeDto> listRoute = routeService.getListRoute(routeRequest);
             return ResponseEntity.ok().body(listRoute);
         } catch (Exception e) {
             // TODO: handle exception

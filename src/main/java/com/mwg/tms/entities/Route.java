@@ -6,10 +6,13 @@ import lombok.Setter;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Getter
 @Setter
 @Entity
 @Table(name = "route")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Route {
     @Id
     @Column(name = "routeid", nullable = false, length = 40)
@@ -35,5 +38,8 @@ public class Route {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "typeofvehicleid")
     private TypeOfVehicle typeofvehicleid;
+
+    // @OneToMany(mappedBy = "carrentalinformationid")
+    // List<CarRentalInfomation> listRental
 
 }

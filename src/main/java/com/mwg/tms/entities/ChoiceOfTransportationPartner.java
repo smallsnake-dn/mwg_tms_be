@@ -3,6 +3,7 @@ package com.mwg.tms.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -34,7 +35,10 @@ public class ChoiceOfTransportationPartner {
     @Column(name = "note", length = Integer.MAX_VALUE)
     private String note;
 
-    @Column(name = "vehicleid", length = 40)
-    private String vehicleid;
+    // @Column(name = "vehicleid", length = 40)
+    // private String vehicleid;
+    @ManyToOne
+    @JoinColumn(name = "vehicleid")
+    Vehicle vehicle;
 
 }

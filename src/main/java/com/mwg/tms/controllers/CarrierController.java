@@ -63,23 +63,22 @@ public class CarrierController {
         }
     }
 
-    @PostMapping("/request/filter")
-    public ResponseEntity<List<CarrierRequestDto>> getListCarrierRequestByFilter(
-            @RequestBody CarrierRequestFilterDto filter) {
-        try {
-            List<CarrierRequestDto> rs = carrierService.getListRequestByFilter(filter);
-            return ResponseEntity.ok().body(rs);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        return null;
-    }
+    // @PostMapping("/request/filter")
+    // public ResponseEntity<List<CarrierRequestDto>> getListCarrierRequestByFilter(
+    //         @RequestBody CarrierRequestFilterDto filter) {
+    //     try {
+    //         List<CarrierRequestDto> rs = carrierService.getListRequestByFilter(filter);
+    //         return ResponseEntity.ok().body(rs);
+    //     } catch (Exception e) {
+    //         // TODO: handle exception
+    //     }
+    //     return null;
+    // }
 
     
     @PutMapping("/request")
     public ResponseEntity<String> updateCarrierRequest(@RequestBody UpdateStatusDto update) {
         try {
-            System.out.println(UUID.randomUUID().toString());
             carrierService.updateStatus(update);
             return ResponseEntity.ok().body("OKK");
         } catch (Exception e) {

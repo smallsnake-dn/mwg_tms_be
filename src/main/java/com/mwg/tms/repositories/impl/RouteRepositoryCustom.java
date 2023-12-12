@@ -5,8 +5,9 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.mwg.tms.DAO.IRoute;
+import com.mwg.tms.DTO.RouteResponeDto;
+import com.mwg.tms.constant.Status;
 import com.mwg.tms.DTO.RouteRequest;
-import com.mwg.tms.DTO.RouteRespone;
 import com.mwg.tms.entities.Route;
 import com.mwg.tms.repositories.IRouteRepositoryCustom;
 import com.mwg.tms.utils.FormatDate;
@@ -22,26 +23,51 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<RouteRespone> findAllBydeparturelocationid(RouteRequest routeRequest) {
+    public List<RouteResponeDto> findAllBydeparturelocationid(RouteRequest routeRequest) {
         String query = QueryBuilder.create()
-                .Select("select new com.mwg.tms.DTO.RouteRespone(r.id, stl.exactaddress as departureLocation, r.starttime, el.exactaddress as endingLocation, r.endtime) from\r\n" + //
+                .Select("select new com.mwg.tms.DAO.RouteResponeDao(r.id, stl.exactaddress as departureLocation, r.starttime, el.exactaddress as endingLocation, r.endtime, c) from\r\n"
+                        + //
                         "             Route r\r\n" + //
-                        "                 left join SuggestShippingUnit rs\r\n" + //
-                        "                     on r.id = rs.routeid.id\r\n" + //
+                        // " left join SuggestShippingUnit rs\r\n" + //
+                        // " on r.routeid = rs.routeid.id\r\n" + //
                         "                 left join PhysicalLocation stl\r\n" + //
                         "                     on r.departurelocation.id = stl.id\r\n" + //
                         "                 left join PhysicalLocation el\r\n" + //
                         "                     on r.endinglocation.id = el.id\r\n" + //
+                        "                 left join CarRentalInfomation c\r\n" + //
+                        "                     on r.routeid = c.routeid.routeid\r\n" + //
                         "         where ")
                 .startLocation(routeRequest.getLocation())
                 // .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();
                 .startTime(routeRequest.getFromDate()).build();
         System.out.println("communeIdddd:  " + FormatDate.format(routeRequest.getFromDate()));
         System.out.println(query);
-        List<RouteRespone> l = null;
+        if (routeRequest.getStatus() != null) {
+            switch (routeRequest.getStatus()) {
+                case -1:
+                    query = query + "and c.status IS NULL";
+                    break;
+                case 0:
+                    query = query + "and c.status = 0";
+                    break;
+                case 1:
+                    query = query + "and c.status  = 1";
+                    break;
+                case 2:
+                    query = query + "and c.status  = 2";
+                    break;
+
+                default:
+                    System.out.println("Khong them duoc status vao query route");
+                    break;
+            }
+        } else {
+            query = query + " and c.carrentalinformationid IS NULL";
+        }
+        List<RouteResponeDto> l = null;
         try {
             Query q = entityManager.createQuery(query, Route.class);
-            l = (List<RouteRespone>) q.getResultList();
+            l = (List<RouteResponeDto>) q.getResultList();
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());

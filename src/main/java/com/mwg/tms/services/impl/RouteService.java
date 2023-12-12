@@ -9,8 +9,9 @@ import com.mwg.tms.entities.Route;
 import com.mwg.tms.repositories.IDeliveryPointPackage;
 import com.mwg.tms.repositories.IRouteRepository;
 import com.mwg.tms.repositories.IRouteRepositoryCustom;
+import com.mwg.tms.DAO.RouteResponeDao;
 import com.mwg.tms.DTO.RouteRequest;
-import com.mwg.tms.DTO.RouteRespone;
+import com.mwg.tms.DTO.RouteResponeDto;
 import com.mwg.tms.services.IRouteService;
 
 @Service
@@ -18,15 +19,20 @@ public class RouteService implements IRouteService {
     private IRouteRepository routeRepository;
     private IRouteRepositoryCustom routeRepositoryCustom;
     private IDeliveryPointPackage deliveryPointPackage;
-    public RouteService (IRouteRepository routeRepository, IRouteRepositoryCustom routeRepositoryCustom, IDeliveryPointPackage deliveryPointPackage) {
+
+    public RouteService(IRouteRepository routeRepository, IRouteRepositoryCustom routeRepositoryCustom,
+            IDeliveryPointPackage deliveryPointPackage) {
         this.routeRepository = routeRepository;
         this.routeRepositoryCustom = routeRepositoryCustom;
         this.deliveryPointPackage = deliveryPointPackage;
     }
 
+    // private int checkStatus()
     @Override
-    public List<RouteRespone> getListRoute(RouteRequest routeRequest) {
-    List<RouteRespone> listRoute = routeRepositoryCustom.findAllBydeparturelocationid(routeRequest);
+    public List<RouteResponeDto> getListRoute(RouteRequest routeRequest) {
+        List<RouteResponeDto> listRoute = routeRepositoryCustom.findAllBydeparturelocationid(routeRequest);
+
+
         return listRoute;
     }
 
@@ -40,7 +46,8 @@ public class RouteService implements IRouteService {
     @Override
     public List<DeliveryPointPackage> getDetailDeliveryPoint(String deliveryId) {
         // List<PackageResponeDto> listPackage = new ArrayList<>();
-        // listPackage.add(new PackageResponeDto(0, deliveryId, deliveryId, deliveryId, routeId, deliveryId));
+        // listPackage.add(new PackageResponeDto(0, deliveryId, deliveryId, deliveryId,
+        // routeId, deliveryId));
         List<DeliveryPointPackage> list = this.deliveryPointPackage.findBydeliverypointid(deliveryId);
         // System.out.println("DeliveryPointPackage size: " + size);
         return list;
@@ -51,6 +58,5 @@ public class RouteService implements IRouteService {
         List<Route> list = routeRepository.findAllById(listRoute);
         return list;
     }
-    
-    
+
 }
