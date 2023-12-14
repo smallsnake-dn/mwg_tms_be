@@ -104,7 +104,6 @@ public class CarrierService implements ICarrierService {
             routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
             List<ShippingPartner> shippingPartner = shippingPartnerRepository
                     .getShippingPartnerByLocation(r.getDeparturelocation(), r.getTypeofvehicleid());
-
             List<RoutePrice> routePrices = new ArrayList<>();
             for (ShippingPartner s : shippingPartner) {
 //            add resource
@@ -119,26 +118,12 @@ public class CarrierService implements ICarrierService {
                     listRouteByLocation.getResource().put(keyMap, carrierResource);
                 }
 
-//                tinh toan chi phi cua tuyen theo don vi van chuyen
+//                tinh toan chi phi cua tuyen theo don vi van chuyen (chua kiem tra neu khong ho tro thi tra ve -1)
                 double price = calculatePriceForRoute(r, s);
                 routePrices.add(new RoutePrice(s, r, price));
             }
             listRouteByLocation.listRouteWithCarrier.add(routePrices);
-
-
-//            listRouteByLocation = new ListRouteByLocation();
-//            List<CarrierResource> listCarrierResource = new ArrayList<>();
-//            listRouteByLocation.setResource(listCarrierResource);
-//            List<List<RoutePrice>> listRouteWithCarrier = new ArrayList<>();
-//            // them gia cua tuyen theo don vi van chuyen
-//            // listRouteWithCarrier.add
-//            // chưa tính toán chi phí theo tuyến
-//            listRouteByLocation.setListRouteWithCarrier(listRouteWithCarrier);
-//
-//            routeByLocation.put(r.getDeparturelocation().getLocationid(), listRoute);
-
         }
-        ;
         return routeByLocation;
     }
 

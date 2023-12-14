@@ -67,6 +67,7 @@ public class SuggestCarrier {
             RoutePrice routePrice = routePrices.get(i);
             String keyMap = routePrice.getShippingPartner().getShippingpartnerid()
                     + routePrice.getRoute().getTypeofvehicleid().getTypeofvehicelid();
+//            kiem tra tuyen co su dung loai phuong tien cua don vi do khong phu hop bang cach get price = -1
             if (rr.get(keyMap).getNumberofvehicle() > 0 && routePrice.getPrice() != -1) {
                 Node n = new Node(routePrice, layer);
                 root.child.add(n);
