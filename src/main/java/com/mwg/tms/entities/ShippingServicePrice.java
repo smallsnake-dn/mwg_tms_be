@@ -1,5 +1,7 @@
 package com.mwg.tms.entities;
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,9 +15,12 @@ public class ShippingServicePrice {
     @Column(name = "shippingservicepriceid", nullable = false, length = 40)
     private String shippingservicepriceid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shippingpartnerid")
-    private ShippingPartner shippingpartnerid;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "shippingpartnerid")
+    // private ShippingPartner shippingpartnerid;
+
+    @Column(name = "shippingpartnerid", length = 40)
+    private String shippingpartnerid;
 
     @Column(name = "typeofvehicleid", length = 40)
     private String typeofvehicleid;
@@ -43,6 +48,12 @@ public class ShippingServicePrice {
 
     @Column(name = "holidayexpenses")
     private Double holidayexpenses;
+
+    @OneToMany(mappedBy = "shippingservicepriceid")
+    List<CostLevelsPerKg> listcostlevelperkg;
+    
+    @OneToMany(mappedBy = "shippingservicepriceid")
+    List<CostLevelsPerKm> listcostlevelperkm;
 
 /*
     TODO [JPA Buddy] create field to map the 'roadandbridgecosts' column

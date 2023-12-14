@@ -19,9 +19,12 @@ public class CarRentalInfomation {
     @Column(name = "carrentalinformationid", nullable = false, length = 40)
     private String carrentalinformationid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "routeid")
-    private Route routeid;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "routeid")
+    // private Route routeid;
+
+    @Column(name = "routeid")
+    private String routeid;
 
     @Column(name = "timecreate")
     private Instant timecreate;
@@ -39,5 +42,5 @@ public class CarRentalInfomation {
     private String vehicleid;
 
     @OneToMany(mappedBy = "carrentalinformationid")
-    List<ChoiceOfTransportationPartner> listCOTP;
+    List<ChoiceOfTransportationPartner> listcotp;
 }

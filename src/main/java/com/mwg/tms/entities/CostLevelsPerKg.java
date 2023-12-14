@@ -13,9 +13,12 @@ public class CostLevelsPerKg {
     @Column(name = "costlevelsperkgid", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shippingservicepriceid")
-    private ShippingServicePrice shippingservicepriceid;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "shippingservicepriceid")
+    // private ShippingServicePrice shippingservicepriceid;
+
+    @Column(name = "shippingservicepriceid", length = 40)
+    private String shippingservicepriceid;
 
     @Column(name = "ordinalnumber")
     private Integer ordinalnumber;

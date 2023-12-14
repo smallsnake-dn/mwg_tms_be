@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -39,7 +40,9 @@ public class Route {
     @JoinColumn(name = "typeofvehicleid")
     private TypeOfVehicle typeofvehicleid;
 
-    // @OneToMany(mappedBy = "carrentalinformationid")
-    // List<CarRentalInfomation> listRental
+    @OneToMany(mappedBy = "routeid")
+    List<DeliveryPoint> listdeliverypoint;
 
+    @OneToMany(mappedBy = "routeid")
+    List<CarRentalInfomation> listCarRentalInfomations;
 }

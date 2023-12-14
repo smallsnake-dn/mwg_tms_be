@@ -1,12 +1,11 @@
 package com.mwg.tms.services.impl;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+import com.mwg.tms.entities.*;
+import com.mwg.tms.utils.RoutePrice;
+import com.mwg.tms.utils.SuggestCarrier;
 import org.springframework.stereotype.Service;
 
 import com.mwg.tms.DTO.CarrierRequestDto;
@@ -16,12 +15,6 @@ import com.mwg.tms.DTO.DriverInfo;
 import com.mwg.tms.DTO.SuggestCarrierResponeDto;
 import com.mwg.tms.DTO.UpdateStatusDto;
 import com.mwg.tms.DTO.VehicleInfo;
-import com.mwg.tms.entities.CarRentalInfomation;
-import com.mwg.tms.entities.ChoiceOfTransportationPartner;
-import com.mwg.tms.entities.Driver;
-import com.mwg.tms.entities.Route;
-import com.mwg.tms.entities.ShippingPartner;
-import com.mwg.tms.entities.Vehicle;
 import com.mwg.tms.repositories.ICOTPRepository;
 import com.mwg.tms.repositories.ICarRentalInfomationRepository;
 import com.mwg.tms.repositories.IDriverRepository;
@@ -31,6 +24,10 @@ import com.mwg.tms.repositories.IVehicleRepository;
 import com.mwg.tms.services.ICarrierService;
 import com.mwg.tms.services.IRouteService;
 import com.mwg.tms.utils.RouteCalculator;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Service
 public class CarrierService implements ICarrierService {
@@ -43,9 +40,9 @@ public class CarrierService implements ICarrierService {
     private IShippingPartnerRepository shippingPartnerRepository;
 
     public CarrierService(IRouteRepository routeRepository, RouteService routeService,
-            ICarRentalInfomationRepository carRentalInfomationRepository, IDriverRepository driverRepository,
-            IVehicleRepository vehicleRepository, ICOTPRepository cotpRepository,
-            IShippingPartnerRepository shippingPartnerRepository) {
+                          ICarRentalInfomationRepository carRentalInfomationRepository, IDriverRepository driverRepository,
+                          IVehicleRepository vehicleRepository, ICOTPRepository cotpRepository,
+                          IShippingPartnerRepository shippingPartnerRepository) {
         this.routeRepository = routeRepository;
         this.routeService = routeService;
         this.carRentalInfomationRepository = carRentalInfomationRepository;
@@ -55,17 +52,121 @@ public class CarrierService implements ICarrierService {
         this.shippingPartnerRepository = shippingPartnerRepository;
     }
 
+    @Data
+    @AllArgsConstructor
+    public class CarrierResource {
+        ShippingPartner shippingPartner;
+        TypeOfVehicle typeOfVehicle;
+        int numberofvehicle;
+    }
+
+//    @Data
+//    @AllArgsConstructor
+//    public class RoutePrice {
+//        ShippingPartner shippingPartner;
+//        Route route;
+//        double price;
+//    }
+
+    @Data
+    @AllArgsConstructor
+    public class ListRouteByLocation {
+        HashMap<String, CarrierResource> resource;
+        List<List<RoutePrice>> listRouteWithCarrier;
+
+        public ListRouteByLocation() {
+            resource = new HashMap<>();
+            listRouteWithCarrier = new ArrayList<>();
+        }
+    }
+
+    double calculatePriceKM(Double length, List<CostLevelsPerKm> costLevelsPerKm) {
+        return 1;
+    }
+
+    private double calculatePriceForRoute(Route route, ShippingPartner shippingPartner) {
+        ShippingServicePrice shippingServicePrice = shippingPartner.getShippingserviceprice().get(0);
+        double CHI_PHI_KM = calculatePriceKM(route.getRoutelength(), shippingServicePrice.getListcostlevelperkm());
+        double CHI_PHI_BOC_XEP = shippingServicePrice.getLoadingfeecosts() * route.getListdeliverypoint().size();
+        double CHI_PHI_DIEM_DUNG = shippingServicePrice.getStoppointcosts() * route.getListdeliverypoint().size();
+        return CHI_PHI_KM + CHI_PHI_BOC_XEP + CHI_PHI_DIEM_DUNG;
+    }
+
+    private HashMap<String, ListRouteByLocation> calculate(List<Route> routes) {
+        HashMap<String, ListRouteByLocation> routeByLocation = new HashMap<>();
+//        ListRouteByLocation listRouteByLocation = null;
+        for (Route r : routes) {
+            ListRouteByLocation listRouteByLocation = null;
+            listRouteByLocation = routeByLocation.get(r.getDeparturelocation().getLocationid());
+            if (listRouteByLocation == null) {
+                listRouteByLocation = new ListRouteByLocation();
+            }
+            routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
+            List<ShippingPartner> shippingPartner = shippingPartnerRepository
+                    .getShippingPartnerByLocation(r.getDeparturelocation(), r.getTypeofvehicleid());
+
+            List<RoutePrice> routePrices = new ArrayList<>();
+            for (ShippingPartner s : shippingPartner) {
+//            add resource
+                String keyMap = s.getShippingpartnerid() + r.getTypeofvehicleid().getTypeofvehicelid();
+                if (listRouteByLocation.getResource().get(keyMap) == null) {
+                    int numberOfVehicleBusy = routeRepository.getNumberOfVehicleBusy(s.getShippingpartnerid(),
+                            r.getTypeofvehicleid().getTypeofvehicelid(), r.getDeparturelocation().getLocationid());
+
+                    CarrierResource carrierResource =
+                            new CarrierResource(s, r.getTypeofvehicleid(),
+                                    s.getTransportationresource().get(0).getNumberofvehicle() - numberOfVehicleBusy);
+                    listRouteByLocation.getResource().put(keyMap, carrierResource);
+                }
+
+//                tinh toan chi phi cua tuyen theo don vi van chuyen
+                double price = calculatePriceForRoute(r, s);
+                routePrices.add(new RoutePrice(s, r, price));
+            }
+            listRouteByLocation.listRouteWithCarrier.add(routePrices);
+
+
+//            listRouteByLocation = new ListRouteByLocation();
+//            List<CarrierResource> listCarrierResource = new ArrayList<>();
+//            listRouteByLocation.setResource(listCarrierResource);
+//            List<List<RoutePrice>> listRouteWithCarrier = new ArrayList<>();
+//            // them gia cua tuyen theo don vi van chuyen
+//            // listRouteWithCarrier.add
+//            // chưa tính toán chi phí theo tuyến
+//            listRouteByLocation.setListRouteWithCarrier(listRouteWithCarrier);
+//
+//            routeByLocation.put(r.getDeparturelocation().getLocationid(), listRoute);
+
+        }
+        ;
+        return routeByLocation;
+    }
+
+    private void sugguest(HashMap<String, ListRouteByLocation> rs) {
+        for(ListRouteByLocation l : rs.values()) {
+            SuggestCarrier suggestCarrier = new SuggestCarrier(l.getListRouteWithCarrier(), l.getResource());
+            suggestCarrier.calculate();
+        }
+    }
+
     @Override
     public List<Route> suggestCarrier(List<String> listRouteId) {
         // lấy đơn vị vận chuyển theo tuyến
         // lấy bảng giá theo km hoặc kg
         // List<RouteCalculator> list = new ArrayList<>();
-        listRouteId.forEach(id -> {
-            Route route = routeRepository.getRouteById(id);
-            String typeVehicle = route.getTypeofvehicleid().getTypeofvehicelid();
-            String startLocation = route.getDeparturelocation().getLocationid();
-            
-        });
+        // listRouteId.forEach(id -> {
+        // Route route = routeRepository.getRouteById(id);
+        // String typeVehicle = route.getTypeofvehicleid().getTypeofvehicelid();
+        // String startLocation = route.getDeparturelocation().getLocationid();
+
+        // });
+
+        List<Route> listRoute = routeRepository.findAllById(listRouteId);
+        HashMap<String, ListRouteByLocation> rs = calculate(listRoute);
+        sugguest(rs);
+        for (String s : rs.keySet()) {
+            System.out.println("Key set: " + s);
+        }
         return null;
     }
 
@@ -131,7 +232,7 @@ public class CarrierService implements ICarrierService {
     void updateVehicleForCOTP(ChoiceOfTransportationPartner choiceOfTransportationPartner, Vehicle vehicle)
             throws Exception {
         try {
-            choiceOfTransportationPartner.setVehicleid(vehicle.getVehilceid());
+            choiceOfTransportationPartner.setVehicle(vehicle);
             cotpRepository.save(choiceOfTransportationPartner);
             return;
         } catch (Exception e) {
@@ -183,7 +284,6 @@ public class CarrierService implements ICarrierService {
             ChoiceOfTransportationPartner choiceOfTransportationPartner = fetchChoiceOfTransportationPartner(
                     update.getRequestid());
 
-
             // CHUA CAP NHAT THONG TIN NGUOI THUC HIEN CUA BEN DOI TAC
             if (!update.getType()) {
                 updateRejectRental(choiceOfTransportationPartner);
@@ -210,7 +310,8 @@ public class CarrierService implements ICarrierService {
 
     @Override
     public void updateCarrierForRoute(CarrierUpdateRequestDto update) throws Exception {
-        CarRentalInfomation carRentalInfomation = carRentalInfomationRepository.findByRouteid(update.getRouteId());
+        CarRentalInfomation carRentalInfomation = carRentalInfomationRepository
+                .findByRouteidAndStatusNull(update.getRouteId());
         if (carRentalInfomation == null) {
             throw new Exception("Khong the lay thong tin yeu cau CarRentalInfomation");
         }

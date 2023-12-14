@@ -12,7 +12,7 @@ import com.mwg.tms.entities.Route;
 
 public interface IRouteService {
     public List<RouteResponeDto> getListRoute(RouteRequest routeRequest);
-    public Route getRouteDetailById(String routeId);
+    public RouteDetailRespone getRouteDetailById(String routeId);
     public List<DeliveryPointPackage> getDetailDeliveryPoint(String deliveryId);
     public List<Route> getListRouteById(List<String> listRoute);
 }

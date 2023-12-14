@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mwg.tms.entities.CarRentalInfomation;
 import com.mwg.tms.entities.DeliveryPointPackage;
 import com.mwg.tms.entities.Route;
+import com.mwg.tms.repositories.ICarRentalInfomationRepository;
 import com.mwg.tms.repositories.IDeliveryPointPackage;
 import com.mwg.tms.repositories.IRouteRepository;
 import com.mwg.tms.repositories.IRouteRepositoryCustom;
 import com.mwg.tms.DAO.RouteResponeDao;
+import com.mwg.tms.DTO.RouteDetailRespone;
 import com.mwg.tms.DTO.RouteRequest;
 import com.mwg.tms.DTO.RouteResponeDto;
 import com.mwg.tms.services.IRouteService;
@@ -19,12 +22,14 @@ public class RouteService implements IRouteService {
     private IRouteRepository routeRepository;
     private IRouteRepositoryCustom routeRepositoryCustom;
     private IDeliveryPointPackage deliveryPointPackage;
+    private ICarRentalInfomationRepository carRentalInfomationRepository;
 
     public RouteService(IRouteRepository routeRepository, IRouteRepositoryCustom routeRepositoryCustom,
-            IDeliveryPointPackage deliveryPointPackage) {
+            IDeliveryPointPackage deliveryPointPackage, ICarRentalInfomationRepository carRentalInfomationRepository) {
         this.routeRepository = routeRepository;
         this.routeRepositoryCustom = routeRepositoryCustom;
         this.deliveryPointPackage = deliveryPointPackage;
+        this.carRentalInfomationRepository = carRentalInfomationRepository;
     }
 
     // private int checkStatus()
@@ -37,10 +42,11 @@ public class RouteService implements IRouteService {
     }
 
     @Override
-    public Route getRouteDetailById(String routeId) {
+    public RouteDetailRespone getRouteDetailById(String routeId) {
         // Route route = routeRepository.getRouteById(routeId);
         Route route = routeRepository.findById(routeId).get();
-        return route;
+        CarRentalInfomation carRentalInfomation = carRentalInfomationRepository.findByRouteid(routeId);
+        return new RouteDetailRespone(route, carRentalInfomation);
     }
 
     @Override

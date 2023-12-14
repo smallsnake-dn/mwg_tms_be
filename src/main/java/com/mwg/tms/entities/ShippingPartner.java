@@ -1,8 +1,11 @@
 package com.mwg.tms.entities;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,4 +25,9 @@ public class ShippingPartner {
     @Column(name = "phonenumber", length = 12)
     private String phonenumber;
 
+    @OneToMany(mappedBy = "id.shippingpartnerid")
+    List<TransportationResource> transportationresource;
+
+    @OneToMany(mappedBy = "shippingpartnerid")
+    List<ShippingServicePrice> shippingserviceprice;
 }

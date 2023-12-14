@@ -35,7 +35,7 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
                         "                 left join PhysicalLocation el\r\n" + //
                         "                     on r.endinglocation.id = el.id\r\n" + //
                         "                 left join CarRentalInfomation c\r\n" + //
-                        "                     on r.routeid = c.routeid.routeid\r\n" + //
+                        "                     on r.routeid = c.routeid\r\n" + //
                         "         where ")
                 .startLocation(routeRequest.getLocation())
                 // .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();

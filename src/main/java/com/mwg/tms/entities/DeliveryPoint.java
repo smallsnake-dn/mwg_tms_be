@@ -23,9 +23,13 @@ public class DeliveryPoint {
 
     @Column(name = "arrivaltime")
     private Instant arrivaltime;
+    
+    @Column(name = "routeid")
+    private String routeid;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "routeid")
-    private Route routeid;
+    
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "routeid")
+    // private Route routeid;
 
 }

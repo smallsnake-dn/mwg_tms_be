@@ -43,9 +43,9 @@ public class RouteController {
     }
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<Route> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
+    public ResponseEntity<RouteDetailRespone> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
         try {
-            Route route = routeService.getRouteDetailById(routeId);
+            RouteDetailRespone route = routeService.getRouteDetailById(routeId);
             return ResponseEntity.ok().body(route);
 
         } catch (Exception e) {
