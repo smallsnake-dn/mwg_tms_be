@@ -3,6 +3,7 @@ package com.mwg.tms.controllers;
 import java.util.Date;
 import java.util.List;
 
+import com.mwg.tms.DTO.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,15 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mwg.tms.DAO.IRoute;
-import com.mwg.tms.DTO.PackageResponeDto;
-import com.mwg.tms.DTO.RouteDetailRespone;
-import com.mwg.tms.DTO.RouteRequest;
-import com.mwg.tms.DTO.RouteResponeDto;
 import com.mwg.tms.entities.DeliveryPointPackage;
 import com.mwg.tms.entities.Route;
 import com.mwg.tms.services.IRouteService;
 import com.mwg.tms.services.impl.RouteService;
 import com.mwg.tms.utils.QueryBuilder;
+import org.springframework.web.servlet.function.EntityResponse;
 
 @RestController
 @RequestMapping("/api/route")
@@ -38,20 +36,19 @@ public class RouteController {
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
+            return ResponseEntity.internalServerError().body(null);
         }
-        return null;
     }
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<RouteDetailRespone> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
+    public ResponseEntity<RouteDetailDto> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
         try {
-            RouteDetailRespone route = routeService.getRouteDetailById(routeId);
+            RouteDetailDto route = routeService.getRouteDetailById(routeId);
             return ResponseEntity.ok().body(route);
-
         } catch (Exception e) {
-            // TODO: handle exception
+            System.out.println(e.getMessage());
+            return ResponseEntity.unprocessableEntity().body(null);
         }
-        return null;
     }
 
     @GetMapping("/delivery/{deliveryId}")

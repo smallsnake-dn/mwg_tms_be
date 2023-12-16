@@ -43,30 +43,30 @@ public class SuggestCarrier {
         }
     }
 
-    public void calculate() {
+    public List<RoutePrice> calculate() {
         Node n = new Node(new RoutePrice(), -1);
         long start = System.currentTimeMillis();
 
         buildTree(n, 0, resource);
         List<RoutePrice> ar = new ArrayList<>();
         solution(n,ar);
-
         long end = System.currentTimeMillis();
-        listRs.forEach(g -> {
-            System.out.print(g.price + " ");
-        });
-        System.out.println(" :" + rs);
-        System.out.println((end - start) + "ms");
-
-        System.out.println(n);
+        return listRs;
+//        listRs.forEach(g -> {
+//            System.out.print(g.price + " ");
+//        });
+//        System.out.println(" :" + rs);
+//        System.out.println((end - start) + "ms");
+//
+//        System.out.println(n);
     }
 
     public void buildTree(Node root, int layer, HashMap<String, CarrierService.CarrierResource> rr) {
         List<RoutePrice> routePrices = data.get(layer);
-        for (int i = 0; i < resource.keySet().size(); i++) {
-            RoutePrice routePrice = routePrices.get(i);
+//        for (int i = 0; i < resource.keySet().size(); i++) {
+        for (RoutePrice routePrice : routePrices) {
             String keyMap = routePrice.getShippingPartner().getShippingpartnerid()
-                    + routePrice.getRoute().getTypeofvehicleid().getTypeofvehicelid();
+                    + routePrice.getRoute().getTypeofvehicle().getTypeofvehicelid();
 //            kiem tra tuyen co su dung loai phuong tien cua don vi do khong phu hop bang cach get price = -1
             if (rr.get(keyMap).getNumberofvehicle() > 0 && routePrice.getPrice() != -1) {
                 Node n = new Node(routePrice, layer);

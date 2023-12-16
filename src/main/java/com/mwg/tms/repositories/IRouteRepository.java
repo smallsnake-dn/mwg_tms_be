@@ -20,9 +20,9 @@ public interface IRouteRepository extends JpaRepository<Route, String> {
 
     @Query(value = "select COUNT(*) from Route r left join CarRentalInfomation c on r.routeid = c.routeid " +
             "left join ChoiceOfTransportationPartner ch on c.carrentalinformationid = ch.carrentalinformationid " +
-            "where ch.shippingpartnerid = :shippingpartnerid  " +
+            "where ch.shippingPartner.shippingpartnerid = :shippingpartnerid  " +
             "and (c.status = 0 or c.status = 1) " +
-            "and r.typeofvehicleid.typeofvehicelid = :typeofvehicleid " +
+            "and r.typeofvehicle.typeofvehicelid = :typeofvehicleid " +
             " and r.departurelocation.locationid = :departurelocation and ch.deleteat IS NULL")
     Integer getNumberOfVehicleBusy(@Param("shippingpartnerid") String shippingpartnerid,
             @Param("typeofvehicleid") String typeOfVehicle,

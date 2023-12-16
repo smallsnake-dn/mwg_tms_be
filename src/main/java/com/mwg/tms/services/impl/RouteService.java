@@ -2,6 +2,7 @@ package com.mwg.tms.services.impl;
 
 import java.util.List;
 
+import com.mwg.tms.DTO.RouteDetailDto;
 import org.springframework.stereotype.Service;
 
 import com.mwg.tms.entities.CarRentalInfomation;
@@ -34,19 +35,24 @@ public class RouteService implements IRouteService {
 
     // private int checkStatus()
     @Override
-    public List<RouteResponeDto> getListRoute(RouteRequest routeRequest) {
-        List<RouteResponeDto> listRoute = routeRepositoryCustom.findAllBydeparturelocationid(routeRequest);
-
-
-        return listRoute;
+    public List<RouteResponeDto> getListRoute(RouteRequest routeRequest) throws Exception{
+        List<RouteResponeDao> routesResponeDao = routeRepositoryCustom.findAllBydeparturelocationid(routeRequest);
+        if(routesResponeDao == null) {
+            throw new Exception("getListRoute khong the tim kiem danh sach tuyen");
+        }
+        List<RouteResponeDto> routesResponeDto = RouteResponeDto.castFromRouteResponeDao(routesResponeDao);
+        return routesResponeDto;
     }
 
     @Override
-    public RouteDetailRespone getRouteDetailById(String routeId) {
+    public RouteDetailDto getRouteDetailById(String routeId) throws Exception{
         // Route route = routeRepository.getRouteById(routeId);
         Route route = routeRepository.findById(routeId).get();
-        CarRentalInfomation carRentalInfomation = carRentalInfomationRepository.findByRouteid(routeId);
-        return new RouteDetailRespone(route, carRentalInfomation);
+        if(route == null) {
+            throw new Exception("getRouteDetailById khong the tim thay thong tin tuyen");
+        }
+//        List<CarRentalInfomation> carRentalInfomation = carRentalInfomationRepository.findByRouteid(routeId);
+        return new RouteDetailDto(route);
     }
 
     @Override

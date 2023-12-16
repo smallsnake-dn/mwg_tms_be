@@ -2,6 +2,7 @@ package com.mwg.tms.repositories.impl;
 
 import java.util.List;
 
+import com.mwg.tms.DAO.RouteResponeDao;
 import org.springframework.stereotype.Repository;
 
 import com.mwg.tms.DAO.IRoute;
@@ -23,7 +24,7 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
     private EntityManager entityManager;
 
     @Override
-    public List<RouteResponeDto> findAllBydeparturelocationid(RouteRequest routeRequest) {
+    public List<RouteResponeDao> findAllBydeparturelocationid(RouteRequest routeRequest) {
         String query = QueryBuilder.create()
                 .Select("select new com.mwg.tms.DAO.RouteResponeDao(r.id, stl.exactaddress as departureLocation, r.starttime, el.exactaddress as endingLocation, r.endtime, c) from\r\n"
                         + //
@@ -64,14 +65,15 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
         } else {
             query = query + " and c.carrentalinformationid IS NULL";
         }
-        List<RouteResponeDto> l = null;
+        List<RouteResponeDao> l = null;
         try {
             Query q = entityManager.createQuery(query, Route.class);
-            l = (List<RouteResponeDto>) q.getResultList();
+            l = q.getResultList();
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
         }
+        
         System.out.println("size: " + l.size());
         return l;
     }

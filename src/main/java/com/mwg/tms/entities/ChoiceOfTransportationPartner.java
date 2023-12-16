@@ -25,8 +25,11 @@ public class ChoiceOfTransportationPartner {
     @Column(name = "carrentalinformationid", length = 40)
     private String carrentalinformationid;
 
-    @Column(name = "shippingpartnerid", length = 40)
-    private String shippingpartnerid;
+//    @Column(name = "shippingpartnerid", length = 40)
+//    private String shippingpartnerid;
+    @ManyToOne
+    @JoinColumn(name = "shippingpartnerid")
+    ShippingPartner shippingPartner;
 
     @Column(name = "senderinformation", length = 20)
     private String senderinformation;

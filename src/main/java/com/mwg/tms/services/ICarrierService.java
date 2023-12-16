@@ -12,7 +12,7 @@ import com.mwg.tms.entities.Route;
 
 @Service
 public interface ICarrierService {
-    public List<Route> suggestCarrier(List<String> listRouteId);
+    public List<Route> suggestCarrier(List<String> listRouteId) throws Exception;
     public void createShippingRequest(List<String> listIdRoute) throws Exception;
     public List<CarrierRequestDto> getListRequestByFilter(CarrierRequestFilterDto filter);
     public void updateStatus(UpdateStatusDto update) throws Exception;

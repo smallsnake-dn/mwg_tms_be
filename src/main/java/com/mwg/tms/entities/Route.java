@@ -1,5 +1,6 @@
 package com.mwg.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,11 +39,13 @@ public class Route {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "typeofvehicleid")
-    private TypeOfVehicle typeofvehicleid;
+    private TypeOfVehicle typeofvehicle;
+
+//    @JsonIgnore
+    @OneToMany(mappedBy = "routeid")
+    private List<DeliveryPoint> listdeliverypoint;
 
     @OneToMany(mappedBy = "routeid")
-    List<DeliveryPoint> listdeliverypoint;
-
-    @OneToMany(mappedBy = "routeid")
+    @JsonIgnore
     List<CarRentalInfomation> listCarRentalInfomations;
 }

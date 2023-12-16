@@ -29,6 +29,9 @@ public class CarRentalInfomation {
     @Column(name = "timecreate")
     private Instant timecreate;
 
+    @Column(name = "creator", length = 50)
+    private String creator;
+
     @Column(name = "approverinformation", length = 20)
     private String approverinformation;
 
@@ -38,9 +41,12 @@ public class CarRentalInfomation {
     @Column(name = "status")
     private Integer status;
 
-    @Column(name = "vehicleid", length = 40)
-    private String vehicleid;
+//    @Column(name = "vehicleid", length = 40)
+//    private String vehicleid;
+    @ManyToOne
+    @JoinColumn(name = "vehicleid")
+    private Vehicle vehicle;
 
     @OneToMany(mappedBy = "carrentalinformationid")
-    List<ChoiceOfTransportationPartner> listcotp;
+    private List<ChoiceOfTransportationPartner> listcotp;
 }

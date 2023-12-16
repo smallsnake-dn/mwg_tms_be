@@ -22,6 +22,9 @@ public class TypeOfVehicle {
     @Column(name = "payload")
     private Double payload;
 
+    @Column(name = "typeofvehiclename", length = 50)
+    private String typeofvehiclename;
+
     @Column(name = "volume")
     private Double volume;
 

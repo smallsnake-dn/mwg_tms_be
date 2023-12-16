@@ -1,6 +1,7 @@
 package com.mwg.tms.repositories;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -33,7 +34,7 @@ public interface ICarRentalInfomationRepository extends JpaRepository<CarRentalI
         CarRentalInfomation findByRouteidAndStatusNull(@Param("id") String id);
 
         @Query(value = "select c from CarRentalInfomation c where c.routeid = :id")
-        CarRentalInfomation findByRouteid(@Param("id") String id);
+        List<CarRentalInfomation> findByRouteid(@Param("id") String id);
 
         
 

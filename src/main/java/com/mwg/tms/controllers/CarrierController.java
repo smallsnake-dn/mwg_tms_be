@@ -36,17 +36,17 @@ public class CarrierController {
             return list;
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            // TODO: handle exception
         }
         return null;
     }
 
-    @PutMapping("/")
+    @PutMapping()
     public ResponseEntity<String> updateCarrierForRoute(@RequestBody CarrierUpdateRequestDto carrierUpdate) {
         try {
             carrierService.updateCarrierForRoute(carrierUpdate);
             return ResponseEntity.ok().body("Update successs");
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.internalServerError().body("error server");
         }
     }
@@ -77,7 +77,7 @@ public class CarrierController {
 
     
     @PutMapping("/request")
-    public ResponseEntity<String> updateCarrierRequest(@RequestBody UpdateStatusDto update) {
+    public ResponseEntity<String> updateCarrierForRequest(@RequestBody UpdateStatusDto update) {
         try {
             carrierService.updateStatus(update);
             return ResponseEntity.ok().body("OKK");

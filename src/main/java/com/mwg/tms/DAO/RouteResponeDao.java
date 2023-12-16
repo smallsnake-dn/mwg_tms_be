@@ -12,9 +12,9 @@ import java.time.Instant;
 @AllArgsConstructor
 public class RouteResponeDao {
     String routeId;
-    String departureLocationId;
+    String departureLocationName;
     Instant startTime;
-    String endingLocationId;
+    String endingLocationName;
     Instant endTime;
     CarRentalInfomation carRentalInfomation;
 }

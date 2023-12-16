@@ -15,12 +15,12 @@ public class SuggestShippingUnit {
     @MapsId("routeid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "routeid", nullable = false)
-    private Route routeid;
+    private Route route;
 
     @MapsId("shippingpartnerid")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "shippingpartnerid", nullable = false)
-    private ShippingPartner shippingpartnerid;
+    private ShippingPartner shippingpartner;
 
     @Column(name = "cost")
     private Double cost;
