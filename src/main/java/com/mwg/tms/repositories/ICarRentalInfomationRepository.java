@@ -33,8 +33,8 @@ public interface ICarRentalInfomationRepository extends JpaRepository<CarRentalI
         @Query(value = "select c from CarRentalInfomation c where c.routeid = :id and c.status IS NULL")
         CarRentalInfomation findByRouteidAndStatusNull(@Param("id") String id);
 
-        @Query(value = "select c from CarRentalInfomation c where c.routeid = :id")
-        List<CarRentalInfomation> findByRouteid(@Param("id") String id);
+        @Query(value = "select c from CarRentalInfomation c where c.routeid = :id and (c.status != 1 or c.status != 2 )")
+        List<CarRentalInfomation> findExistByRouteid(@Param("id") String id);
 
         
 

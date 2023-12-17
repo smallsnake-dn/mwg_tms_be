@@ -109,6 +109,8 @@ public class CarrierService implements ICarrierService {
                 listRouteByLocation = new ListRouteByLocation();
                 routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
             }
+            System.out.println("locationid: " + r.getDeparturelocation().getLocationid());
+            System.out.println("vehicleid: " + r.getTypeofvehicle().getTypeofvehicelid());
             List<ShippingPartner> shippingPartner = shippingPartnerRepository
                     .getShippingPartnerByLocation(r.getDeparturelocation(), r.getTypeofvehicle());
             List<RoutePrice> routePrices = new ArrayList<>();
@@ -179,8 +181,10 @@ public class CarrierService implements ICarrierService {
     @Override
     public void createShippingRequest(List<String> listIdRoute) throws Exception {
         listIdRoute.forEach(id -> {
-//            CarRentalInfomation carRentalInfomation = carRentalInfomationRepository.findByRouteid(id);
-            carRentalInfomationRepository.CreateCarRentalInformation((new Date()).toInstant(), 0, id);
+            List<CarRentalInfomation> carRentalInfomation = carRentalInfomationRepository.findExistByRouteid(id);
+            if (carRentalInfomation.isEmpty()) {
+                carRentalInfomationRepository.CreateCarRentalInformation((new Date()).toInstant(), 0, id);
+            }
         });
     }
 
@@ -227,9 +231,10 @@ public class CarrierService implements ICarrierService {
         }
     }
 
-    ChoiceOfTransportationPartner fetchChoiceOfTransportationPartner(String id) throws Exception {
-        System.out.println("IDDDDDDDD: " + id);
-        ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository.findCOTP(id);
+    ChoiceOfTransportationPartner fetchChoiceOfTransportationPartner(String routeid) throws Exception {
+//        System.out.println("IDDDDDDDD: " + id);
+        List<CarRentalInfomation> carRentalInfomation = carRentalInfomationRepository.findExistByRouteid(routeid);
+        ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository.findCOTP(carRentalInfomation.get(0).getCarrentalinformationid());
         if (choiceOfTransportationPartner == null) {
             throw new Exception("Khong tim thay choiceOfTransportationPartner");
         }
@@ -282,7 +287,7 @@ public class CarrierService implements ICarrierService {
     @Override
     public void updateStatus(UpdateStatusDto update) throws Exception {
         ChoiceOfTransportationPartner choiceOfTransportationPartner = fetchChoiceOfTransportationPartner(
-                update.getRequestid());
+                update.getRouteid());
 
         // CHUA CAP NHAT THONG TIN NGUOI THUC HIEN CUA BEN DOI TAC
         if (!update.getType()) {

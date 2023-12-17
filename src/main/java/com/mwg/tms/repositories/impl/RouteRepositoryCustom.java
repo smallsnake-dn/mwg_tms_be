@@ -39,12 +39,17 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
                         "                     on r.routeid = c.routeid\r\n" + //
                         "         where ")
                 .startLocation(routeRequest.getLocation())
-                // .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();
-                .startTime(routeRequest.getFromDate()).build();
+                 .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();
+//                .startTime(routeRequest.getFromDate()).build();
         System.out.println("communeIdddd:  " + FormatDate.format(routeRequest.getFromDate()));
         System.out.println(query);
         if (routeRequest.getStatus() != null) {
             switch (routeRequest.getStatus()) {
+                case -2:
+//                    query = query + "and c.status IS NULL";
+                    query = query + " and c.carrentalinformationid IS NULL";
+
+                    break;
                 case -1:
                     query = query + "and c.status IS NULL";
                     break;
@@ -63,7 +68,7 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
                     break;
             }
         } else {
-            query = query + " and c.carrentalinformationid IS NULL";
+//            query = query + " and c.carrentalinformationid IS NULL";
         }
         List<RouteResponeDao> l = null;
         try {
@@ -73,7 +78,7 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
             // TODO: handle exception
             System.out.println(e.getMessage());
         }
-        
+
         System.out.println("size: " + l.size());
         return l;
     }

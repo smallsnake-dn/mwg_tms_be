@@ -79,6 +79,9 @@ public class CarrierController {
     @PutMapping("/request")
     public ResponseEntity<String> updateCarrierForRequest(@RequestBody UpdateStatusDto update) {
         try {
+            if(update.getType() && ((update.getVehicleinfo() == null) || (update.getDriverinfo() == null))) {
+                return ResponseEntity.badRequest().body("bad request");
+            }
             carrierService.updateStatus(update);
             return ResponseEntity.ok().body("OKK");
         } catch (Exception e) {

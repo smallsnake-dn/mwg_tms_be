@@ -1,5 +1,6 @@
 package com.mwg.tms.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "delivery_point")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DeliveryPoint {
     @Id
     @Column(name = "deliverypointid", nullable = false, length = 40)

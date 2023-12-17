@@ -42,11 +42,11 @@ public class RouteResponeDto {
                     if (ch.getDeleteat() == null) {
                         routeResponeDto.setCarrier(ch.getShippingPartner().getShippingparnername() != null ?
                                 ch.getShippingPartner().getShippingparnername() : null);
+                        routeResponeDto.setLicenseplate(ch.getVehicle() != null ?
+                                ch.getVehicle().getLicenseplate() : null);
                         break;
                     }
                 }
-                routeResponeDto.setLicenseplate(r.getCarRentalInfomation().getVehicle() != null ?
-                        r.getCarRentalInfomation().getVehicle().getLicenseplate() : null);
             }
             listRouteResponeDto.add(routeResponeDto);
         }
