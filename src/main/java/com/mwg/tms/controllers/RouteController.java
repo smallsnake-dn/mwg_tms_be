@@ -5,11 +5,7 @@ import java.util.List;
 
 import com.mwg.tms.DTO.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.entities.DeliveryPointPackage;
@@ -19,6 +15,7 @@ import com.mwg.tms.services.impl.RouteService;
 import com.mwg.tms.utils.QueryBuilder;
 import org.springframework.web.servlet.function.EntityResponse;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/route")
 public class RouteController {
@@ -28,7 +25,7 @@ public class RouteController {
         this.routeService = routeService;
     }
 
-    @GetMapping()
+    @PostMapping()
     public ResponseEntity<List<RouteResponeDto>> getListRoute(@RequestBody RouteRequest routeRequest) {
         try {
             List<RouteResponeDto> listRoute = routeService.getListRoute(routeRequest);

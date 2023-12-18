@@ -38,13 +38,13 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
                         "                 left join CarRentalInfomation c\r\n" + //
                         "                     on r.routeid = c.routeid\r\n" + //
                         "         where ")
-                .startLocation(routeRequest.getLocation())
-                 .startTime(routeRequest.getFromDate()).endTime(routeRequest.getEndDate()).build();
-//                .startTime(routeRequest.getFromDate()).build();
-        System.out.println("communeIdddd:  " + FormatDate.format(routeRequest.getFromDate()));
+                .startLocation(routeRequest.getData().getLocation())
+                 .startTime(routeRequest.getData().getFromDate()).endTime(routeRequest.getData().getEndDate()).build();
+//                .startTime(routeRequest.getData().getFromDate()).build();
+        System.out.println("communeIdddd:  " + FormatDate.format(routeRequest.getData().getFromDate()));
         System.out.println(query);
-        if (routeRequest.getStatus() != null) {
-            switch (routeRequest.getStatus()) {
+        if (routeRequest.getData().getStatus() != null) {
+            switch (routeRequest.getData().getStatus()) {
                 case -2:
 //                    query = query + "and c.status IS NULL";
                     query = query + " and c.carrentalinformationid IS NULL";

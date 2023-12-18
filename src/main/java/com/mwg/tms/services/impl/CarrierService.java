@@ -109,13 +109,13 @@ public class CarrierService implements ICarrierService {
                 listRouteByLocation = new ListRouteByLocation();
                 routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
             }
-            System.out.println("locationid: " + r.getDeparturelocation().getLocationid());
-            System.out.println("vehicleid: " + r.getTypeofvehicle().getTypeofvehicelid());
+//            System.out.println("locationid: " + r.getDeparturelocation().getLocationid());
+//            System.out.println("vehicleid: " + r.getTypeofvehicle().getTypeofvehicelid());
             List<ShippingPartner> shippingPartner = shippingPartnerRepository
                     .getShippingPartnerByLocation(r.getDeparturelocation(), r.getTypeofvehicle());
             List<RoutePrice> routePrices = new ArrayList<>();
             for (ShippingPartner s : shippingPartner) {
-//            add resource
+//            thêm tài nguyên
                 String keyMap = s.getShippingpartnerid() + r.getTypeofvehicle().getTypeofvehicelid();
                 if (listRouteByLocation.getResource().get(keyMap) == null) {
                     int numberOfVehicleBusy = routeRepository.getNumberOfVehicleBusy(s.getShippingpartnerid(),
@@ -285,7 +285,7 @@ public class CarrierService implements ICarrierService {
     }
 
     @Override
-    public void updateStatus(UpdateStatusDto update) throws Exception {
+    public void updateStatus(UpdateStatusDto.UpdateStatus update) throws Exception {
         ChoiceOfTransportationPartner choiceOfTransportationPartner = fetchChoiceOfTransportationPartner(
                 update.getRouteid());
 
@@ -309,7 +309,7 @@ public class CarrierService implements ICarrierService {
     }
 
     @Override
-    public void updateCarrierForRoute(CarrierUpdateRequestDto update) throws Exception {
+    public void updateCarrierForRoute(CarrierUpdateRequestDto.CarrierUpdate update) throws Exception {
         CarRentalInfomation carRentalInfomation = carRentalInfomationRepository
                 .findByRouteidAndStatusNull(update.getRouteId());
         if (carRentalInfomation == null) {
