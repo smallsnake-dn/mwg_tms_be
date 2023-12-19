@@ -23,7 +23,8 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
     @Override
     public List<RouteResponeDao> findAllBydeparturelocationid(RouteRequest routeRequest) {
         String query = QueryBuilder.create()
-                .Select("select new com.mwg.tms.DAO.RouteResponeDao(r.id, stl.exactaddress as departureLocation, r.starttime, el.exactaddress as endingLocation, r.endtime, c) from\r\n"
+                .Select("select new com.mwg.tms.DAO.RouteResponeDao(r.id, stl.exactaddress as departureLocation, r.starttime," +
+                        " el.exactaddress as endingLocation, r.endtime, c) from\r\n"
                         + //
                         "             Route r\r\n" + //
                         // " left join SuggestShippingUnit rs\r\n" + //

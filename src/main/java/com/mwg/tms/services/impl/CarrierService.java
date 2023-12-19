@@ -2,18 +2,16 @@ package com.mwg.tms.services.impl;
 
 import java.util.*;
 
+import com.mwg.tms.DAO.RouteResponeDao;
+import com.mwg.tms.DTO.*;
 import com.mwg.tms.entities.*;
 import com.mwg.tms.repositories.*;
+import com.mwg.tms.repositories.impl.RouteRepositoryCustom;
 import com.mwg.tms.utils.RoutePrice;
 import com.mwg.tms.utils.SuggestCarrier;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import com.mwg.tms.DTO.CarrierRequestDto;
-import com.mwg.tms.DTO.CarrierRequestFilterDto;
-import com.mwg.tms.DTO.CarrierUpdateRequestDto;
-import com.mwg.tms.DTO.DriverInfo;
-import com.mwg.tms.DTO.UpdateStatusDto;
 import com.mwg.tms.services.ICarrierService;
 import com.mwg.tms.services.IRouteService;
 
@@ -31,10 +29,14 @@ public class CarrierService implements ICarrierService {
     private IShippingPartnerRepository shippingPartnerRepository;
     private ISuggestShippingUnitRepository suggestShippingUnitRepository;
 
+    private IRouteRepositoryCustom routeRepositoryCustom;
+
+
     public CarrierService(IRouteRepository routeRepository, RouteService routeService,
                           ICarRentalInfomationRepository carRentalInfomationRepository, IDriverRepository driverRepository,
                           IVehicleRepository vehicleRepository, ICOTPRepository cotpRepository,
-                          IShippingPartnerRepository shippingPartnerRepository, ISuggestShippingUnitRepository suggestShippingUnitRepository) {
+                          IShippingPartnerRepository shippingPartnerRepository, ISuggestShippingUnitRepository suggestShippingUnitRepository,
+                          RouteRepositoryCustom routeRepositoryCustom) {
         this.routeRepository = routeRepository;
         this.routeService = routeService;
         this.carRentalInfomationRepository = carRentalInfomationRepository;
@@ -43,6 +45,7 @@ public class CarrierService implements ICarrierService {
         this.cotpRepository = cotpRepository;
         this.shippingPartnerRepository = shippingPartnerRepository;
         this.suggestShippingUnitRepository = suggestShippingUnitRepository;
+        this.routeRepositoryCustom = routeRepositoryCustom;
     }
 
     @Data
@@ -368,6 +371,13 @@ public class CarrierService implements ICarrierService {
         choiceOfTransportationPartner2
                 .setShippingPartner(shippingPartner);
         cotpRepository.save(choiceOfTransportationPartner2);
+    }
+
+    @Override
+    public List<RequestResponeDto> getListRequest(RouteRequest routeRequest) throws Exception {
+        List<RouteResponeDao> routesResponeDao = routeRepositoryCustom.findAllBydeparturelocationid(routeRequest);
+        List<RequestResponeDto> requestResponeDto = RequestResponeDto.castFromRouteResponeDao(routesResponeDao);
+        return requestResponeDto;
     }
 
 }

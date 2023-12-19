@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.mwg.tms.DTO.*;
+import com.mwg.tms.utils.Respone;
+import com.mwg.tms.utils.ResponeCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,11 +74,11 @@ public class CarrierController {
     //     return null;
     // }
 
-    
+
     @PutMapping("/request")
     public ResponseEntity<String> updateCarrierForRequest(@RequestBody UpdateStatusDto update) {
         try {
-            if(update.getData().getType() && ((update.getData().getVehicleinfo() == null) || (update.getData().getDriverinfo() == null))) {
+            if (update.getData().getType() && ((update.getData().getVehicleinfo() == null) || (update.getData().getDriverinfo() == null))) {
                 return ResponseEntity.badRequest().body("bad request");
             }
             carrierService.updateStatus(update.getData()
@@ -85,6 +87,26 @@ public class CarrierController {
             return ResponseEntity.ok().body("OKK");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("server error");
+        }
+    }
+
+
+    @PostMapping("/request/filter")
+    public ResponseEntity<Respone<List<RequestResponeDto>>> getListRequest(@RequestBody RouteRequest request) {
+        try {
+            List<RequestResponeDto> list = carrierService.getListRequest(request);
+            return ResponseEntity.ok().body(new Respone<List<RequestResponeDto>>(
+                    ResponeCode.SUCCESS.code,
+                    "Thanh cong",
+                    list
+            ));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.ok().body(new Respone<List<RequestResponeDto>>(
+                    ResponeCode.ERROR.code,
+                    "That bai",
+                    null
+            ));
         }
     }
 
