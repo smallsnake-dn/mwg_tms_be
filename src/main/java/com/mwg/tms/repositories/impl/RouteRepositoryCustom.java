@@ -5,9 +5,6 @@ import java.util.List;
 import com.mwg.tms.DAO.RouteResponeDao;
 import org.springframework.stereotype.Repository;
 
-import com.mwg.tms.DAO.IRoute;
-import com.mwg.tms.DTO.RouteResponeDto;
-import com.mwg.tms.constant.Status;
 import com.mwg.tms.DTO.RouteRequest;
 import com.mwg.tms.entities.Route;
 import com.mwg.tms.repositories.IRouteRepositoryCustom;
@@ -51,7 +48,7 @@ public class RouteRepositoryCustom implements IRouteRepositoryCustom {
 
                     break;
                 case -1:
-                    query = query + "and c.status IS NULL";
+                    query = query + "and c.status IS NULL and c.carrentalinformationid IS NOT NULL ";
                     break;
                 case 0:
                     query = query + "and c.status = 0";

@@ -1,6 +1,5 @@
 package com.mwg.tms.services.impl;
 
-import java.time.Instant;
 import java.util.*;
 
 import com.mwg.tms.entities.*;
@@ -13,16 +12,12 @@ import com.mwg.tms.DTO.CarrierRequestDto;
 import com.mwg.tms.DTO.CarrierRequestFilterDto;
 import com.mwg.tms.DTO.CarrierUpdateRequestDto;
 import com.mwg.tms.DTO.DriverInfo;
-import com.mwg.tms.DTO.SuggestCarrierResponeDto;
 import com.mwg.tms.DTO.UpdateStatusDto;
-import com.mwg.tms.DTO.VehicleInfo;
 import com.mwg.tms.services.ICarrierService;
 import com.mwg.tms.services.IRouteService;
-import com.mwg.tms.utils.RouteCalculator;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Service
 public class CarrierService implements ICarrierService {
@@ -109,8 +104,6 @@ public class CarrierService implements ICarrierService {
                 listRouteByLocation = new ListRouteByLocation();
                 routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
             }
-//            System.out.println("locationid: " + r.getDeparturelocation().getLocationid());
-//            System.out.println("vehicleid: " + r.getTypeofvehicle().getTypeofvehicelid());
             List<ShippingPartner> shippingPartner = shippingPartnerRepository
                     .getShippingPartnerByLocation(r.getDeparturelocation(), r.getTypeofvehicle());
             List<RoutePrice> routePrices = new ArrayList<>();
@@ -232,7 +225,6 @@ public class CarrierService implements ICarrierService {
     }
 
     ChoiceOfTransportationPartner fetchChoiceOfTransportationPartner(String routeid) throws Exception {
-//        System.out.println("IDDDDDDDD: " + id);
         List<CarRentalInfomation> carRentalInfomation = carRentalInfomationRepository.findExistByRouteid(routeid);
         ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository.findCOTP(carRentalInfomation.get(0).getCarrentalinformationid());
         if (choiceOfTransportationPartner == null) {

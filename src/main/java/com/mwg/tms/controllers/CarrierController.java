@@ -63,7 +63,6 @@ public class CarrierController {
     //         List<CarrierRequestDto> rs = carrierService.getListRequestByFilter(filter);
     //         return ResponseEntity.ok().body(rs);
     //     } catch (Exception e) {
-    //         // TODO: handle exception
     //     }
     //     return null;
     // }

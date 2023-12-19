@@ -1,19 +1,14 @@
 package com.mwg.tms.controllers;
 
-import java.util.Date;
 import java.util.List;
 
 import com.mwg.tms.DTO.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.entities.DeliveryPointPackage;
-import com.mwg.tms.entities.Route;
 import com.mwg.tms.services.IRouteService;
 import com.mwg.tms.services.impl.RouteService;
-import com.mwg.tms.utils.QueryBuilder;
-import org.springframework.web.servlet.function.EntityResponse;
 
 @CrossOrigin
 @RestController

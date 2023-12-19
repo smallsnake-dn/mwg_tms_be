@@ -2,7 +2,6 @@ package com.mwg.tms.services;
 
 import java.util.List;
 
-import com.mwg.tms.DAO.IRoute;
 import com.mwg.tms.DTO.*;
 import com.mwg.tms.entities.DeliveryPointPackage;
 import com.mwg.tms.entities.Route;
