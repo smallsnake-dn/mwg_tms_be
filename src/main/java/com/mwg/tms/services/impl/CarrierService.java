@@ -6,6 +6,7 @@ import com.mwg.tms.entities.*;
 import com.mwg.tms.repositories.*;
 import com.mwg.tms.utils.RoutePrice;
 import com.mwg.tms.utils.SuggestCarrier;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.mwg.tms.DTO.CarrierRequestDto;
@@ -94,19 +95,36 @@ public class CarrierService implements ICarrierService {
         return price;
     }
 
-    private HashMap<String, ListRouteByLocation> calculate(List<Route> routes) {
-        HashMap<String, ListRouteByLocation> routeByLocation = new HashMap<>();
+    @Data
+    public class CalculatorRespone {
+        HashMap<String, ListRouteByLocation> routeByLocation;
+        List<String> routeError;
+
+        public CalculatorRespone() {
+            this.routeByLocation = new HashMap<>();
+            this.routeError = new ArrayList<>();
+        }
+    }
+
+    private CalculatorRespone calculate(List<Route> routes) {
+        CalculatorRespone calculatorRespone = new CalculatorRespone();
+        calculatorRespone.routeByLocation = new HashMap<>();
+        calculatorRespone.routeError = new ArrayList<>();
 //        ListRouteByLocation listRouteByLocation = null;
         for (Route r : routes) {
             ListRouteByLocation listRouteByLocation = null;
-            listRouteByLocation = routeByLocation.get(r.getDeparturelocation().getLocationid());
+            listRouteByLocation = calculatorRespone.routeByLocation.get(r.getDeparturelocation().getLocationid());
             if (listRouteByLocation == null) {
                 listRouteByLocation = new ListRouteByLocation();
-                routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
+                calculatorRespone.routeByLocation.put(r.getDeparturelocation().getLocationid(), listRouteByLocation);
             }
             List<ShippingPartner> shippingPartner = shippingPartnerRepository
                     .getShippingPartnerByLocation(r.getDeparturelocation(), r.getTypeofvehicle());
             List<RoutePrice> routePrices = new ArrayList<>();
+            if (shippingPartner.isEmpty()) {
+                System.out.println("Tai tuyen " + r.getRouteid() + " khong du don vi van chuyen");
+                calculatorRespone.routeError.add(r.getRouteid());
+            }
             for (ShippingPartner s : shippingPartner) {
 //            thêm tài nguyên
                 String keyMap = s.getShippingpartnerid() + r.getTypeofvehicle().getTypeofvehicelid();
@@ -126,7 +144,7 @@ public class CarrierService implements ICarrierService {
             }
             listRouteByLocation.listRouteWithCarrier.add(routePrices);
         }
-        return routeByLocation;
+        return calculatorRespone;
     }
 
     private boolean sugguest(HashMap<String, ListRouteByLocation> rs) {
@@ -157,18 +175,34 @@ public class CarrierService implements ICarrierService {
         return true;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class SuggestCarrierRespone {
+        String message;
+        List<String> listErr;
+    }
+
     @Override
-    public List<Route> suggestCarrier(List<String> listRouteId) throws Exception {
+    public SuggestCarrierRespone suggestCarrier(List<String> listRouteId) throws Exception {
         List<Route> listRoute = routeRepository.findAllById(listRouteId);
         if (listRoute == null) {
             throw new Exception("suggest carrier khong the tim kiem danh sach tuyen");
         }
-        HashMap<String, ListRouteByLocation> rs = calculate(listRoute);
-        sugguest(rs);
-        for (String s : rs.keySet()) {
+        CalculatorRespone rs = calculate(listRoute);
+//        for(ListRouteByLocation lr : rs.values()) {
+//            if(lr.getResource().size() == 0) {
+//                System.out.println("Khong co tai nguyen cho tuyen" + lr.get);
+//            }
+//        }
+        sugguest(rs.getRouteByLocation());
+        for (String s : rs.getRouteByLocation().keySet()) {
             System.out.println("Key set: " + s);
         }
-        return null;
+        if (rs.getRouteError().isEmpty()) {
+            return new SuggestCarrierRespone("Thanh cong", rs.getRouteError());
+        }
+        return new SuggestCarrierRespone("Co loi", rs.getRouteError());
     }
 
     @Override

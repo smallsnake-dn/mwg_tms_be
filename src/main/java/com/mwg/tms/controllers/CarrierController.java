@@ -23,15 +23,20 @@ public class CarrierController {
     }
 
     @PostMapping("/suggest")
-    public List<Route> suggestCarrier(@RequestBody SuggestRequestDto listIdRoute) {
+    public CarrierService.SuggestCarrierRespone suggestCarrier(@RequestBody SuggestRequestDto listIdRoute) {
         try {
-            List<Route> list = carrierService.suggestCarrier(listIdRoute.getData());
-            return list;
+            CarrierService.SuggestCarrierRespone response = carrierService.suggestCarrier(listIdRoute.getData());
+            return response;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return null;
     }
+
+//    public ResponseEntity<> getListCarrierOfRoute() {
+//
+//        return ResponseEntity.ok().body(null);
+//    }
 
     @PutMapping()
     public ResponseEntity<String> updateCarrierForRoute(@RequestBody CarrierUpdateRequestDto carrierUpdate) {
