@@ -14,7 +14,7 @@ public class UpdateStatusDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UpdateStatus {
-        String routeid;
+        String carrentalid;
         Boolean type;
         List<DriverInfo> driverinfo;
         String vehicleinfo;

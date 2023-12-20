@@ -31,8 +31,8 @@ public class CarrierController {
             return response;
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return null;
     }
 
 //    public ResponseEntity<> getListCarrierOfRoute() {
@@ -81,9 +81,7 @@ public class CarrierController {
             if (update.getData().getType() && ((update.getData().getVehicleinfo() == null) || (update.getData().getDriverinfo() == null))) {
                 return ResponseEntity.badRequest().body("bad request");
             }
-            carrierService.updateStatus(update.getData()
-
-            );
+            carrierService.updateStatus(update.getData());
             return ResponseEntity.ok().body("OKK");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("server error");

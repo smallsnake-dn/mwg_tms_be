@@ -111,8 +111,8 @@ public class CarrierService implements ICarrierService {
 
     private CalculatorRespone calculate(List<Route> routes) {
         CalculatorRespone calculatorRespone = new CalculatorRespone();
-        calculatorRespone.routeByLocation = new HashMap<>();
-        calculatorRespone.routeError = new ArrayList<>();
+//        calculatorRespone.routeByLocation = new HashMap<>();
+//        calculatorRespone.routeError = new ArrayList<>();
 //        ListRouteByLocation listRouteByLocation = null;
         for (Route r : routes) {
             ListRouteByLocation listRouteByLocation = null;
@@ -132,12 +132,18 @@ public class CarrierService implements ICarrierService {
 //            thêm tài nguyên
                 String keyMap = s.getShippingpartnerid() + r.getTypeofvehicle().getTypeofvehicelid();
                 if (listRouteByLocation.getResource().get(keyMap) == null) {
-                    int numberOfVehicleBusy = routeRepository.getNumberOfVehicleBusy(s.getShippingpartnerid(),
-                            r.getTypeofvehicle().getTypeofvehicelid(), r.getDeparturelocation().getLocationid());
+                    CarrierResource carrierResource;
+                    if (!s.getShippingpartnerid().equals("1")) {
+                        int numberOfVehicleBusy = routeRepository.getNumberOfVehicleBusy(s.getShippingpartnerid(),
+                                r.getTypeofvehicle().getTypeofvehicelid(), r.getDeparturelocation().getLocationid());
 
-                    CarrierResource carrierResource =
-                            new CarrierResource(s, r.getTypeofvehicle(),
-                                    s.getTransportationresource().get(0).getNumberofvehicle() - numberOfVehicleBusy);
+                        carrierResource =
+                                new CarrierResource(s, r.getTypeofvehicle(),
+                                        s.getTransportationresource().get(0).getNumberofvehicle() - numberOfVehicleBusy);
+                    } else {
+                        carrierResource =
+                                new CarrierResource(s, r.getTypeofvehicle(), s.getTransportationresource().get(0).getNumberofvehicle());
+                    }
                     listRouteByLocation.getResource().put(keyMap, carrierResource);
                 }
 
@@ -261,9 +267,10 @@ public class CarrierService implements ICarrierService {
         }
     }
 
-    ChoiceOfTransportationPartner fetchChoiceOfTransportationPartner(String routeid) throws Exception {
-        List<CarRentalInfomation> carRentalInfomation = carRentalInfomationRepository.findExistByRouteid(routeid);
-        ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository.findCOTP(carRentalInfomation.get(0).getCarrentalinformationid());
+    ChoiceOfTransportationPartner fetchChoiceOfTransportationPartner(String carrentalid) throws Exception {
+//        List<CarRentalInfomation> carRentalInfomation = carRentalInfomationRepository.findExistByRouteid(routeid);
+//        ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository.findCOTP(carRentalInfomation.get(0).getCarrentalinformationid());
+        ChoiceOfTransportationPartner choiceOfTransportationPartner = cotpRepository.findCOTP(carrentalid);
         if (choiceOfTransportationPartner == null) {
             throw new Exception("Khong tim thay choiceOfTransportationPartner");
         }
@@ -316,7 +323,7 @@ public class CarrierService implements ICarrierService {
     @Override
     public void updateStatus(UpdateStatusDto.UpdateStatus update) throws Exception {
         ChoiceOfTransportationPartner choiceOfTransportationPartner = fetchChoiceOfTransportationPartner(
-                update.getRouteid());
+                update.getCarrentalid());
 
         // CHUA CAP NHAT THONG TIN NGUOI THUC HIEN CUA BEN DOI TAC
         if (!update.getType()) {

@@ -61,6 +61,10 @@ public class SuggestCarrier {
 //        System.out.println(n);
     }
 
+    private boolean checkResource() {
+        return true;
+    }
+
     public void buildTree(Node root, int layer, HashMap<String, CarrierService.CarrierResource> rr) {
         List<RoutePrice> routePrices = data.get(layer);
 //        for (int i = 0; i < resource.keySet().size(); i++) {
