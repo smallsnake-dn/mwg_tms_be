@@ -25,13 +25,28 @@ public class CarrierController {
     }
 
     @PostMapping("/suggest")
-    public CarrierService.SuggestCarrierRespone suggestCarrier(@RequestBody SuggestRequestDto listIdRoute) {
+    public ResponseEntity<Respone<List<String>>> suggestCarrier(@RequestBody SuggestRequestDto listIdRoute) {
         try {
             CarrierService.SuggestCarrierRespone response = carrierService.suggestCarrier(listIdRoute.getData());
-            return response;
+            if(response.getListErr().isEmpty()) {
+                return ResponseEntity.ok().body(new Respone<>(
+                        ResponeCode.SUCCESS.code,
+                        "Thanh cong",
+                        null
+                ));
+            } else {
+                return ResponseEntity.ok().body(new Respone<>(
+                        ResponeCode.ERROR.code,
+                        "Co tuyen khong the de xuat",
+                        response.getListErr()
+                ));
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            return ResponseEntity.ok().body(new Respone<>(
+                    ResponeCode.ERROR.code,
+                    "Thanh cong",
+                    null
+            ));
         }
     }
 
@@ -41,28 +56,54 @@ public class CarrierController {
 //    }
 
     @PutMapping()
-    public ResponseEntity<String> updateCarrierForRoute(@RequestBody CarrierUpdateRequestDto carrierUpdate) {
+    public ResponseEntity<Respone<?>> updateCarrierForRoute(@RequestBody CarrierUpdateRequestDto carrierUpdate) {
         try {
             carrierService.updateCarrierForRoute(carrierUpdate.getData());
-            return ResponseEntity.ok().body("Update successs");
+            return ResponseEntity.ok().body(new Respone<>(
+                    ResponeCode.SUCCESS.code,
+                    "Thanh cong",
+                    null
+            ));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.internalServerError().body("error server");
+            return ResponseEntity.internalServerError().body(new Respone<>(
+                    ResponeCode.ERROR.code,
+                    "That bai",
+                    null
+            ));
         }
     }
 
     // tested
+//    @PostMapping("/request")
+//    public ResponseEntity<String> createShippingRequest(@RequestBody CreateShippingRequestDto listRouteId) {
+//        try {
+//            carrierService.createShippingRequest(listRouteId.getData());
+//            return ResponseEntity.ok().body("OKK");
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            return ResponseEntity.internalServerError().body("server error");
+//        }
+//    }
+
     @PostMapping("/request")
-    public ResponseEntity<String> createShippingRequest(@RequestBody CreateShippingRequestDto listRouteId) {
+    public ResponseEntity<Respone<?>> createShippingRequest(@RequestBody CreateShippingRequestDto listRouteId) {
         try {
             carrierService.createShippingRequest(listRouteId.getData());
-            return ResponseEntity.ok().body("OKK");
+            return ResponseEntity.ok().body(new Respone<>(
+                    ResponeCode.SUCCESS.code,
+                    "Thanh cong",
+                    null
+            ));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.internalServerError().body("server error");
+            return ResponseEntity.internalServerError().body(new Respone<>(
+                    ResponeCode.ERROR.code,
+                    "That bai",
+                    null
+            ));
         }
     }
-
     // @PostMapping("/request/filter")
     // public ResponseEntity<List<CarrierRequestDto>> getListCarrierRequestByFilter(
     //         @RequestBody CarrierRequestFilterDto filter) {
@@ -76,15 +117,27 @@ public class CarrierController {
 
 
     @PutMapping("/request")
-    public ResponseEntity<String> updateCarrierForRequest(@RequestBody UpdateStatusDto update) {
+    public ResponseEntity<Respone<?>> updateCarrierForRequest(@RequestBody UpdateStatusDto update) {
         try {
             if (update.getData().getType() && ((update.getData().getVehicleinfo() == null) || (update.getData().getDriverinfo() == null))) {
-                return ResponseEntity.badRequest().body("bad request");
+                return ResponseEntity.badRequest().body(new Respone<>(
+                        ResponeCode.ERROR.code,
+                        "Bad request",
+                        null
+                ));
             }
             carrierService.updateStatus(update.getData());
-            return ResponseEntity.ok().body("OKK");
+            return ResponseEntity.ok().body(new Respone<>(
+                    ResponeCode.SUCCESS.code,
+                    "Thanh cong",
+                    null
+            ));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("server error");
+            return ResponseEntity.internalServerError().body(new Respone<>(
+                    ResponeCode.ERROR.code,
+                    "That bai",
+                    null
+            ));
         }
     }
 

@@ -3,6 +3,8 @@ package com.mwg.tms.controllers;
 import java.util.List;
 
 import com.mwg.tms.DTO.*;
+import com.mwg.tms.utils.Respone;
+import com.mwg.tms.utils.ResponeCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,32 +23,52 @@ public class RouteController {
     }
 
     @PostMapping()
-    public ResponseEntity<List<RouteResponeDto>> getListRoute(@RequestBody RouteRequest routeRequest) {
+    public ResponseEntity<Respone<List<RouteResponeDto>>> getListRoute(@RequestBody RouteRequest routeRequest) {
         try {
             List<RouteResponeDto> listRoute = routeService.getListRoute(routeRequest);
-            return ResponseEntity.ok().body(listRoute);
+            return ResponseEntity.ok().body(new Respone<>(
+                    ResponeCode.SUCCESS.code,
+                    "Thanh cong",
+                    listRoute
+            ));
         } catch (Exception e) {
             // TODO: handle exception
             System.out.println(e.getMessage());
-            return ResponseEntity.internalServerError().body(null);
+            return ResponseEntity.internalServerError().body(new Respone<>(
+                    ResponeCode.ERROR.code,
+                    "That bai",
+                    null
+            ));
         }
     }
 
     @GetMapping("/{routeId}")
-    public ResponseEntity<RouteDetailDto> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
+    public ResponseEntity<Respone<RouteDetailDto>> getRouteDetailById(@PathVariable(name = "routeId") String routeId) {
         try {
             RouteDetailDto route = routeService.getRouteDetailById(routeId);
-            return ResponseEntity.ok().body(route);
+            return ResponseEntity.ok().body(new Respone<>(
+                    ResponeCode.SUCCESS.code,
+                    "Thanh cong",
+                    route
+            ));
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.unprocessableEntity().body(null);
+            return ResponseEntity.internalServerError().body(new Respone<>(
+                    ResponeCode.ERROR.code,
+                    "That bai",
+                    null
+            ));
         }
     }
 
     @GetMapping("/delivery/{deliveryId}")
-    public List<DeliveryPointPackage> getDetailDeliveryPoint(
+    public ResponseEntity<Respone<List<DeliveryPointPackage>>> getDetailDeliveryPoint(
             @PathVariable("deliveryId") String deliveryId) {
         List<DeliveryPointPackage> list = routeService.getDetailDeliveryPoint(deliveryId);
-        return list;
+        return ResponseEntity.ok().body(new Respone<>(
+                ResponeCode.SUCCESS.code,
+                "Thanh cong",
+                list
+        ));
     }
 }
