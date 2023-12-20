@@ -42,9 +42,10 @@ public class CarrierController {
                 ));
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.ok().body(new Respone<>(
                     ResponeCode.ERROR.code,
-                    "Thanh cong",
+                    "That bai",
                     null
             ));
         }

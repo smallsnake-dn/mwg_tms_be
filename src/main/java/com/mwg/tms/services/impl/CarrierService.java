@@ -133,18 +133,24 @@ public class CarrierService implements ICarrierService {
                 String keyMap = s.getShippingpartnerid() + r.getTypeofvehicle().getTypeofvehicelid();
                 if (listRouteByLocation.getResource().get(keyMap) == null) {
                     CarrierResource carrierResource;
-                    if (!s.getShippingpartnerid().equals("1")) {
+//                    if (!s.getShippingpartnerid().equals("1")) {
                         int numberOfVehicleBusy = routeRepository.getNumberOfVehicleBusy(s.getShippingpartnerid(),
                                 r.getTypeofvehicle().getTypeofvehicelid(), r.getDeparturelocation().getLocationid());
 
-                        carrierResource =
-                                new CarrierResource(s, r.getTypeofvehicle(),
-                                        s.getTransportationresource().get(0).getNumberofvehicle() - numberOfVehicleBusy);
-                    } else {
-                        carrierResource =
-                                new CarrierResource(s, r.getTypeofvehicle(), s.getTransportationresource().get(0).getNumberofvehicle());
-                    }
-                    listRouteByLocation.getResource().put(keyMap, carrierResource);
+                        for(TransportationResource transportationResource : s.getTransportationresource()) {
+                            if(transportationResource.getTypeofvehicleid().getTypeofvehicelid()
+                                    .equals(r.getTypeofvehicle().getTypeofvehicelid())) {
+                                carrierResource =
+                                        new CarrierResource(s, r.getTypeofvehicle(),
+                                                s.getTransportationresource().get(0).getNumberofvehicle() - numberOfVehicleBusy);
+                                listRouteByLocation.getResource().put(keyMap, carrierResource);
+                                break;
+                            }
+                        }
+//                    } else {
+//                        carrierResource =
+//                                new CarrierResource(s, r.getTypeofvehicle(), s.getTransportationresource().get(0).getNumberofvehicle());
+//                    }
                 }
 
                 double price = calculatePriceForRoute(r, s);
@@ -205,9 +211,9 @@ public class CarrierService implements ICarrierService {
 //            }
 //        }
         sugguest(rs.getRouteByLocation());
-        for (String s : rs.getRouteByLocation().keySet()) {
-            System.out.println("Key set: " + s);
-        }
+//        for (String s : rs.getRouteByLocation().keySet()) {
+//            System.out.println("Key set: " + s);
+//        }
         if (rs.getRouteError().isEmpty()) {
             return new SuggestCarrierRespone("Thanh cong", rs.getRouteError());
         }
