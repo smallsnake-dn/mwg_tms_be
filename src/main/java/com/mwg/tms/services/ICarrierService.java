@@ -16,4 +16,6 @@ public interface ICarrierService {
     public void updateStatus(UpdateStatusDto.UpdateStatus update) throws Exception;
     public void updateCarrierForRoute(CarrierUpdateRequestDto.CarrierUpdate update) throws Exception;
     public List<RequestResponeDto> getListRequest(RouteRequest routeRequest) throws Exception;
+
+    public List<ShippingPartnerRespone> getListCarrier();
 }

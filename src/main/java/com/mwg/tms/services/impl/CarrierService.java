@@ -387,4 +387,11 @@ public class CarrierService implements ICarrierService {
         return requestResponeDto;
     }
 
+    @Override
+    public List<ShippingPartnerRespone> getListCarrier() {
+        List<ShippingPartner> list = shippingPartnerRepository.findAll();
+
+        return ShippingPartnerRespone.castFromShippingPartner(list);
+    }
+
 }

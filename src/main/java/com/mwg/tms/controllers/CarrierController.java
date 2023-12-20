@@ -161,4 +161,14 @@ public class CarrierController {
         }
     }
 
+    @GetMapping("/info")
+    public ResponseEntity<Respone<List<ShippingPartnerRespone>>> getShippingPartner() {
+        List<ShippingPartnerRespone> list = carrierService.getListCarrier();
+        return ResponseEntity.ok().body(new Respone<>(
+                ResponeCode.SUCCESS.code,
+                "Thanh cong",
+                list
+        ));
+    }
+
 }
