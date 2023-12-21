@@ -133,24 +133,37 @@ public class CarrierService implements ICarrierService {
                 String keyMap = s.getShippingpartnerid() + r.getTypeofvehicle().getTypeofvehicelid();
                 if (listRouteByLocation.getResource().get(keyMap) == null) {
                     CarrierResource carrierResource;
-//                    if (!s.getShippingpartnerid().equals("1")) {
+                    if (!s.getShippingpartnerid().equals("1")) {
                         int numberOfVehicleBusy = routeRepository.getNumberOfVehicleBusy(s.getShippingpartnerid(),
                                 r.getTypeofvehicle().getTypeofvehicelid(), r.getDeparturelocation().getLocationid());
 
-                        for(TransportationResource transportationResource : s.getTransportationresource()) {
-                            if(transportationResource.getTypeofvehicleid().getTypeofvehicelid()
+                        for (TransportationResource transportationResource : s.getTransportationresource()) {
+                            if (transportationResource.getTypeofvehicleid().getTypeofvehicelid()
                                     .equals(r.getTypeofvehicle().getTypeofvehicelid())) {
                                 carrierResource =
                                         new CarrierResource(s, r.getTypeofvehicle(),
-                                                s.getTransportationresource().get(0).getNumberofvehicle() - numberOfVehicleBusy);
+                                                transportationResource.getNumberofvehicle() - numberOfVehicleBusy);
                                 listRouteByLocation.getResource().put(keyMap, carrierResource);
                                 break;
                             }
                         }
-//                    } else {
-//                        carrierResource =
-//                                new CarrierResource(s, r.getTypeofvehicle(), s.getTransportationresource().get(0).getNumberofvehicle());
-//                    }
+                    } else {
+                        int numberVehicleInternalBusy = routeRepository.getNumberOfVehicleInternalBusy(r.getTypeofvehicle().getTypeofvehicelid(),
+                                r.getDeparturelocation().getLocationid(), r.getStarttime(), r.getEndtime());
+                        for (TransportationResource transportationResource : s.getTransportationresource()) {
+                            if (transportationResource.getTypeofvehicleid().getTypeofvehicelid()
+                                    .equals(r.getTypeofvehicle().getTypeofvehicelid())) {
+                                if ((transportationResource.getNumberofvehicle() - numberVehicleInternalBusy) > 0) {
+
+                                    carrierResource =
+                                            new CarrierResource(s, r.getTypeofvehicle(),
+                                                    transportationResource.getNumberofvehicle());
+                                    listRouteByLocation.getResource().put(keyMap, carrierResource);
+                                }
+                                break;
+                            }
+                        }
+                    }
                 }
 
                 double price = calculatePriceForRoute(r, s);

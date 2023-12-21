@@ -1,18 +1,25 @@
 package com.mwg.tms.utils;
 
+import com.mwg.tms.entities.Route;
+import com.mwg.tms.repositories.IRouteRepository;
 import com.mwg.tms.services.impl.CarrierService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 @Data
 @AllArgsConstructor
 public class SuggestCarrier {
     List<List<RoutePrice>> data;
     HashMap<String, CarrierService.CarrierResource> resource;
+
 
     List<RoutePrice> listRs;
 
@@ -43,18 +50,25 @@ public class SuggestCarrier {
         }
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public class RouteUsed {
+        Instant startTime;
+        Instant endtime;
+        String typeVehicle;
+    }
+
     public List<RoutePrice> calculate() {
         Node n = new Node(new RoutePrice(), -1);
+        Stack<RouteUsed> internalResoure = new Stack<>();
         long start = System.currentTimeMillis();
 
-        buildTree(n, 0, resource);
+        buildTree(n, 0, resource, internalResoure);
         List<RoutePrice> ar = new ArrayList<>();
         solution(n,ar);
         long end = System.currentTimeMillis();
         return listRs;
-//        listRs.forEach(g -> {
-//            System.out.print(g.price + " ");
-//        });
 //        System.out.println(" :" + rs);
 //        System.out.println((end - start) + "ms");
 //
@@ -65,25 +79,42 @@ public class SuggestCarrier {
         return true;
     }
 
-    public void buildTree(Node root, int layer, HashMap<String, CarrierService.CarrierResource> rr) {
+    public void buildTree(Node root, int layer, HashMap<String, CarrierService.CarrierResource> rr, Stack<RouteUsed> internalResoure) {
         List<RoutePrice> routePrices = data.get(layer);
-//        for (int i = 0; i < resource.keySet().size(); i++) {
         for (RoutePrice routePrice : routePrices) {
             String keyMap = routePrice.getShippingPartner().getShippingpartnerid()
                     + routePrice.getRoute().getTypeofvehicle().getTypeofvehicelid();
-//            kiem tra tuyen co su dung loai phuong tien cua don vi do khong phu hop bang cach get price = -1
+            if(routePrice.getShippingPartner().getShippingpartnerid().equals("1")) {
+                int countR = 0;
+                for(RouteUsed ru : internalResoure) {
+                    Route route = routePrice.getRoute();
+                    if(
+                            (((ru.getStartTime().compareTo(route.getStarttime()) >= 0) && (ru.getStartTime().compareTo(route.getEndtime()) <= 0))
+                            || ((ru.getEndtime().compareTo(route.getStarttime()) >= 0) && (ru.getEndtime().compareTo(route.getEndtime()) <= 0)))
+                            && (ru.getTypeVehicle().equals(route.getTypeofvehicle().getTypeofvehicelid()))
+                    ) {
+                        countR = countR + 1;
+                    }
+                }
+                if((rr.get(keyMap).getNumberofvehicle() - countR) > 0) {
+                    Node n = new Node(routePrice, layer);
+                    root.child.add(n);
+                    if (layer < rows - 1) {
+                        internalResoure.push(new RouteUsed(routePrice.getRoute().getStarttime(), routePrice.getRoute().getEndtime(),
+                                routePrice.getRoute().getTypeofvehicle().getTypeofvehicelid()));
+                        buildTree(n, layer + 1, rr, internalResoure);
+                        internalResoure.pop();
+                    }
+                }
+                break;
+            }
             if (rr.get(keyMap).getNumberofvehicle() > 0 && routePrice.getPrice() != -1) {
                 Node n = new Node(routePrice, layer);
                 root.child.add(n);
-                // resource[i] = resource[i] - 1;
-                // int _rr[] = Arrays.copyOf(rr, rr.length);
-                // _rr[i] = _rr[i] - 1;
                 if (layer < rows - 1) {
                     rr.get(keyMap).setNumberofvehicle(rr.get(keyMap).getNumberofvehicle() - 1);
-                    // System.out.println("Layer:: " + layer);
-                    buildTree(n, layer + 1, rr);
+                    buildTree(n, layer + 1, rr, internalResoure);
                     rr.get(keyMap).setNumberofvehicle(rr.get(keyMap).getNumberofvehicle() + 1);//rr[i] = rr[i] + 1;
-                    // resource[i] = resource[i] + 1;
                 }
             }
         }
